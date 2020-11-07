@@ -3,7 +3,7 @@ theme = "anatole"
 
 [params]
 title = "Tempered Works"
-author = "Paul Brabban"
+author = "Tempered Works"
 description = "Software and Data Consulting Services"
 profilePicture = "/favicons/android-chrome-512x512.png"
 favicon = "/favicons/"
