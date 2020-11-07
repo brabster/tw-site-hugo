@@ -8,6 +8,7 @@ description = "Software and Data Consulting Services"
 profilePicture = "/about/profile.jpeg"
 displayMode = "dark"
 images = "/about/profile.jpeg"
+favicon = "/favicons/"
 
 [menu]
 
