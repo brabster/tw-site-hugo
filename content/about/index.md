@@ -1,6 +1,5 @@
 ---
-title: Tempered Works
-layout: page
+title: About
 ---
 
 ![Profile photo](profile_small.gif)
