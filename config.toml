@@ -5,8 +5,7 @@ theme = "anatole"
 title = "Tempered Works"
 author = "Paul Brabban"
 description = "Software and Data Consulting Services"
-profilePicture = "/about/profile.jpeg"
-images = "/about/profile.jpeg"
+profilePicture = "/favicons/android-chrome-512x512.png"
 favicon = "/favicons/"
 
 [menu]

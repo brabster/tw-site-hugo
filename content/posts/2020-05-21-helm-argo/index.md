@@ -1,9 +1,6 @@
 ---
 title: Helm Charts for Argo Workflows
-date: 2020-05-23T12:00:00Z
-layout: post
-draft: false
-path: /posts/2020-05-23-helm-charts-for-argo-workflows
+date: 2020-05-23
 category: Data Engineering
 tags:
  - kubernetes

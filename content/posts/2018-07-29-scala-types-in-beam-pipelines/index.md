@@ -1,17 +1,12 @@
 ---
-title: "Scala Types in Scio Pipelines"
-date: "2018-07-29T10:36:22.440Z"
-layout: post
-draft: false
-path: "/posts/scala-types-in-scio-pipelines"
-category: "Data Engineering"
+title: Scala Types in Scio Pipelines
+date: 2018-07-29
+category: Data Engineering
 tags:
- - "scala"
- - "apache-beam"
- - "scio"
- - "data-engineering"
- - "development"
-description: "For very little effort, Scala's Type Aliases can help you keep track of what means what in your Scio Beam pipelines."
+ - scala
+ - apache-beam
+ - scio
+description: For very little effort, Scala's Type Aliases can help you keep track of what means what in your Scio Beam pipelines.
 ---
 
 Data pipelines in [Apache Beam](https://beam.apache.org/) have a distinctly functional flavour, whichever language you use. That's because they can be distributed over a cluster of machines, so careful management of state and side-effects is important.

@@ -1,10 +1,7 @@
 ---
 title: Bashing Alpine
-date: 2020-06-07T12:00:00Z
-layout: post
-draft: false
-path: /posts/2020-06-07-bashing-alpine
-category: devops
+date: 2020-06-07
+category: DevOps
 tags:
  - alpine
  - docker
@@ -13,8 +10,6 @@ tags:
  - ash
  - gotcha
 description: For those times when a script is both missing and exactly where it should be.
-images:
- - bradley-howington-P6rYiIgGT6k-unsplash.jpg
 ---
 
 <div class="cover-image">

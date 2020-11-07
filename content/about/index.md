@@ -1,10 +1,9 @@
 ---
-title: Paul Brabban | Tempered Works
+title: Tempered Works
 layout: page
-path: "/services"
 ---
 
-<img style="float: left; padding: 1em;" src="profile_small.gif">
+![Profile photo](profile_small.gif)
 
 Alongside software development and data engineering,
 I've worked in analytics, marketing, machine learning and cloud computing.

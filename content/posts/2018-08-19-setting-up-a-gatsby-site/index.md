@@ -1,17 +1,12 @@
 ---
-title: "Setting up this site with GatsbyJS and Netlify"
-date: "2018-08-19T11:24:25Z"
-layout: post
-draft: false
-path: "/posts/setting-up-tempered-dot-works-with-gatsbyjs-and-netlify"
-category: "Web Development"
+title: Setting up this site with GatsbyJS and Netlify
+date: 2018-08-19
+category: Web Development
 tags:
- - "gatsbyjs"
- - "tempered-works"
- - "blogging"
- - "web-development"
- - "static-sites"
-description: "GatsbyJS is a GraphQL and React-based static site generator that aims to produce really fast sites. Here's what happened when I used it to set up the tempered.works website on Netlify."
+ - gatsbyjs
+ - netlify
+ - security
+description: GatsbyJS is a GraphQL and React-based static site generator that aims to produce really fast sites. Here's what happened when I used it to set up the tempered.works website on Netlify.
 ---
 
 ![No better time to grab an old Geocities-style under construction gif...](under-construction.gif)

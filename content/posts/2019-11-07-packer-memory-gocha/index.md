@@ -1,15 +1,11 @@
 ---
-title: "Packer & Fedora Gotchas"
-date: "2019-11-07T00:00:00Z"
-layout: post
-draft: false
-path: "/posts/packer-fedora-gotchas"
-category: "Virtualisation"
+title: Packer & Fedora Gotchas
+date: 2019-11-07
+category: Development
 tags:
- - "packer"
- - "fedora"
- - "dracut"
-author: brabster
+ - packer
+ - fedora
+ - dracut
 ---
 
 It's been a while!

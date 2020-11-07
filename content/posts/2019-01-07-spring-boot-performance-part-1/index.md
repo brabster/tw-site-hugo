@@ -1,19 +1,15 @@
 ---
-title: "Performance with Spring Boot and Gatling (Part 1)"
-date: "2019-01-07T19:58:00.000Z"
-layout: post
-draft: false
-path: "/posts/spring-boot-performance-part-1"
-category: "devops"
+title: Performance with Spring Boot and Gatling (Part 1)
+date: 2019-01-07
+category: DevOps
 tags:
- - "web-development"
- - "performance-testing"
- - "spring-boot"
- - "spring-security"
- - "gatling"
- - "java"
- - "scala"
-description: "Exploring a surprising performance problem in a simple Spring Boot app with the Gatling load testing framework."
+ - performance
+ - spring-boot
+ - spring-security
+ - gatling
+ - java
+ - scala
+description: Exploring a surprising performance problem in a simple Spring Boot app with the Gatling load testing framework.
 ---
 
 Just after the rest of the team had left for their Christmas holidays, my colleague and I discovered a weird performance problem with a Spring Boot application we'd just started writing.

@@ -1,17 +1,12 @@
 ---
-title: "Writing on the Dunnhumby Engineering Blog"
-date: "2018-10-21T19:58:00.000Z"
-layout: post
-draft: false
-path: "/posts/writing-for-the-dunnhumby-engineering-blog"
-category: "Data Engineering"
+title: Writing on the Dunnhumby Engineering Blog
+date: 2018-10-21
+category: Data Engineering
 tags:
- - "blogging"
- - "apache-beam"
- - "scio"
- - "data-engineering"
- - "demos"
-description: "I've authored a couple of articles on the Dunnhumby engineering blog."
+ - blogging
+ - apache-beam
+ - scio
+description: I've authored a couple of articles on the Dunnhumby engineering blog.
 ---
 
 [Dunnhumby](https://www.dunnhumby.com) is a retail data science company that I've been working with lately.
