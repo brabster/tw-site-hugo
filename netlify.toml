@@ -7,3 +7,6 @@
     Referrer-Policy = "no-referrer-when-downgrade"
     Content-Security-Policy = "default-src https:; report-uri https://160ef2eaecc7f315defdc0dcdca9be59.report-uri.com/r/d/csp/wizard"
 
+[build]
+publish = "public"
+command = "hugo --gc --minify"
