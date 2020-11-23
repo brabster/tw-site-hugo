@@ -26,6 +26,7 @@ Contact me to see how I can help at [paul@tempered.works](mailto:paul@tempered.w
 
 ## Talks and Projects 
 
+* [This Machine Learning Business](https://brabster.github.io/talk-ml-intro/#/) - [ExpertTalks Recording](https://www.equalexperts.com/expert-talks/summer-series-this-machine-learning-business/) - 2020
 * [Dunnhumby's Data Science and Engineering Blog](https://medium.com/@paul.brabban) - Blog Posts - Autumn 2018
 * [Introduction to Feature Selection](https://www.kaggle.com/paulbrabban/intro-to-feature-selection) - Machine Learning Workshop - March 2018
 * [k-Nearest Neighbour Workshop](https://github.com/defshef/dojo-knn) - Machine Learning Workshop - Feb 2018
