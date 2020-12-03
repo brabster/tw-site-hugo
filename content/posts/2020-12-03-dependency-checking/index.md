@@ -14,9 +14,13 @@ We can use great tools like [OWASP Dependency Check](https://jeremylong.github.i
 
 The question that I find comes up isn't whether we should check dependencies - but **when**?
 
-## The Options
+My thinking, argued in the rest of the post, is that:
+- check on push is inadequate
+- scheduling your dependency check is usually the best solution
+- checking on push in addition to checking on a schedule adds little to no real value
+- services with a publish-subscribe model for dependency checking are an alternative worth consideration
 
-### Check on Push
+## Check on Push
 
 I'd bet the first time you put a dependency check into your build, you did what I did. You run the check when you push. When the check fails, you break the build.
 
@@ -26,24 +30,24 @@ There's a nasty tradeoff with this approach, too. I've pushed a change to a repo
 
 Is it a worthwhile tradeoff to jump on that vulnerability as quickly as possible? The safe answer is "yes, of course, because security"  - but I'm going with no, not in most teams.
 
-What if the same vulnerability had been announced a few hours later, after the last push of the day? Would anyone have looked at it before the following morning, twelve-or-more hours later? If it was the Thursday before the UK's Easter four-day holiday, we're talking around 100 hours before anyone's due to log on.
+What if the same vulnerability had been announced a few hours later, after the last push of the day? Would anyone have looked at it before the following morning, twelve-or-more hours later? If it was the Thursday before the UK's Easter four-day holiday, we're talking around 100 hours before anyone's due to push again.
 
 Your time between a vulnerability that affects you becoming public knowledge and you becoming aware of it varies unpredictably between seconds and never. Not good.
 
-### Check on Schedule
+## Check on Schedule
 
 To address those issues you'll set up a scheduled build. It runs the dependency check and alerts the team to issues rather than breaking the build. Now you've got a specific worst-case time to discovery. A nightly build sets that time to 24 hours, but you could schedule more frequently - an hourly build means you'll know within the hour.
 
 Scheduling your dependency check works regardless of how frequently you push. You don't get the broken build knocking unrelated work off track and you can plan your vulnerability management activities into your team's roles and other activities.
 
-Now that you know, worst case, how long it will take you to discover a vulnerability, you can start thinking about your vulnerability management as part of how you run your service. It forces you to accept that there's time between a vulnerability being announced and you becoming aware that you're affected. If you're anything like me, that will mean you'll start worrying more about how to respond effectively. You'll start asking questions you hadn't though of before, like:
+Now that you know, worst case, how long it will take you to discover a vulnerability, you can start thinking about your vulnerability management as part of how you run your service. It forces you to accept the inescapable reality that there's a delay between a vulnerability being announced and you becoming aware that you're affected. If you're anything like me, that will mean you'll start worrying more about how to respond effectively. You'll start asking questions you hadn't though of before, like:
 - How do I know that I wasn't already compromised?
 - How do I respond efficiently when half a dozen repositories are affected by a vulnerability in a common library?
 - How can I be sure you're actually running scheduled checks across multiple repositories?
 
 One last question: should you still check on push? You could, and it would be much less disruptive now you have an alerting channel that doesn't break the build. I'd argue there's not much value and some cost of unplanned disruption in doing so though, once you have your scheduled builds and agreed your response times. I'd advocate for focusing more on an effective response to the vulnerability alerts you get from your scheduled checks.
 
-### Register and Notify
+## Register and Notify
 
 I've had a little informal experience with Snyk lately, and it seems to offer a third option which might point us toward a brighter future. Instead of constantly checking your dependencies in each build, you push your dependency lists to them, and they notify you when a vulnerability is announced that affects you.
 
