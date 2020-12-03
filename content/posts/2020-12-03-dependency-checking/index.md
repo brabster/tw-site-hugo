@@ -15,6 +15,7 @@ We can use great tools like [OWASP Dependency Check](https://jeremylong.github.i
 The question that I find comes up isn't whether we should check dependencies - but **when**?
 
 My thinking, argued in the rest of the post, is that:
+
 - check on push is inadequate
 - scheduling your dependency check is usually the best solution
 - checking on push in addition to checking on a schedule adds little to no real value
@@ -41,6 +42,7 @@ To address those issues you'll set up a scheduled build. It runs the dependency 
 Scheduling your dependency check works regardless of how frequently you push. You don't get the broken build knocking unrelated work off track and you can plan your vulnerability management activities into your team's roles and other activities.
 
 Now that you know, worst case, how long it will take you to discover a vulnerability, you can start thinking about your vulnerability management as part of how you run your service. It forces you to accept the inescapable reality that there's a delay between a vulnerability being announced and you becoming aware that you're affected. If you're anything like me, that will mean you'll start worrying more about how to respond effectively. You'll start asking questions you hadn't though of before, like:
+
 - How do I know that I wasn't already compromised?
 - How do I respond efficiently when half a dozen repositories are affected by a vulnerability in a common library?
 - How can I be sure you're actually running scheduled checks across multiple repositories?
