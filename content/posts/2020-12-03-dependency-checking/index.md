@@ -45,7 +45,7 @@ Now that you know, worst case, how long it will take you to discover a vulnerabi
 
 - How do I know that I wasn't already compromised?
 - How do I respond efficiently when half a dozen repositories are affected by a vulnerability in a common library?
-- How can I be sure you're actually running scheduled checks across multiple repositories?
+- How can I be sure I'm actually running scheduled checks across multiple repositories?
 
 One last question: should you still check on push? You could, and it would be much less disruptive now you have an alerting channel that doesn't break the build. I'd argue there's not much value and some cost of unplanned disruption in doing so though, once you have your scheduled builds and agreed your response times. I'd advocate for focusing more on an effective response to the vulnerability alerts you get from your scheduled checks.
 
