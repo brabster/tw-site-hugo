@@ -1,5 +1,5 @@
 ---
-title: Checking your Depedencies
+title: Checking your Dependencies
 date: 2020-12-03
 category: DevOps
 tags:
@@ -35,15 +35,15 @@ My thinking, argued in the rest of the post, is that:
 
 I'd bet the first time you put a dependency check into your build, you did what I did. You run the check when you push. When the check fails, you break the build.
 
-On its own, it's a terrible solution. A vulnerability can be released at any time, regardless of when you happen to push changes. How will you find out that a service you're not actively working on has a known and fixable vulnerability? One that might endin up being how the criminals who stole your customer data got in. Ouch.
+On its own, it's a terrible solution. A vulnerability can be released at any time, regardless of when you happen to push changes. How will you find out that a service you're not actively working on has a known and fixable vulnerability? One that might end up being how the criminals who stole your customer data got in. Ouch.
 
-There's a nasty tradeoff with this approach, too. I've pushed a change to a repository in a highly capable and fast-moving remote-first team and had the build fail because a vulnerability happened to just have been released. I stop, scrambling to see why my build failed. People around me are pushing and having their builds fail too. Half the team screeches to a halt and has to co-ordinate looking at the vulnerability, deciding what to do and getting that change made, pushed and the build made green again. In a less well co-ordinated team (or the same team on a bad day) he whole thing can quickly resemble a motorway pile-up.
+There's a nasty tradeoff with this approach, too. I've pushed a change to a repository in a capable, fast-moving, remote-first team and had the build fail because a vulnerability happened to just have been released. I stop, scrambling to see why my build failed. People around me are pushing and having their builds fail too. Half the team screeches to a halt and has to co-ordinate looking at the vulnerability, deciding what to do and getting that change made, pushed and the build made green again. In a less well co-ordinated team (or the same team on a bad day) he whole thing can quickly resemble a motorway pile-up.
 
-Is it a worthwhile tradeoff to jump on that vulnerability as quickly as possible? The safe answer is "yes, of course, because security"  - but I'm going with no, not in most teams.
+Is it a worthwhile tradeoff to jump on that vulnerability as quickly as possible? The safe answer is "yes, of course, because security"  - but I'm going with no - it's not a robust solution.
 
 What if the same vulnerability had been announced a few hours later, after the last push of the day? Would anyone have looked at it before the following morning, twelve-or-more hours later? If it was the Thursday before the UK's Easter four-day holiday, we're talking around 100 hours before anyone's due to push again!
 
-Your time between a vulnerability that affects you becoming public knowledge and you becoming aware of it varies unpredictably between seconds and never. Not good.
+The time between a vulnerability that affects you becoming public knowledge and you becoming aware of it varies unpredictably between seconds and never, in the case of the project no one is working on anymore. That's not good.
 
 ## Check on Schedule
 
@@ -61,7 +61,7 @@ Now that you know, worst case, how long it will take you to discover a vulnerabi
 - How do I respond efficiently when multiple repositories are affected by a vulnerability in a common library?
 - How can I be sure I'm actually running scheduled checks across multiple repositories?
 
-Should you check on every push as well? I'd argue there's not much value and some cost of unplanned disruption in doing so, once you have your scheduled builds and response times. I'd advocate for focusing more on an effective response to the vulnerability alerts you get from your scheduled checks.
+Should you check on every push as well? I'd argue there's no real value and some cost of unplanned disruption in doing so, once you have your scheduled builds and response times. If you need to know faster, schedule more frequently. I'd advocate for focusing more on an effective response to the vulnerability alerts you get from your scheduled checks.
 
 ## Breaking Check on Dependency Change
 
@@ -69,7 +69,7 @@ Should you check on every push as well? I'd argue there's not much value and som
     alt="A stop sign"
     attr="Photo by [Will Porada](https://unsplash.com/@will0629) on Unsplash" >}}
 
-Everything we've talked about so far is about finding out you have a vulnerability in production. A build-breaking check **when you push a change to your dependencies** will stop you introducing a dependency with a known vulnerability. Your scheduled check would catch the problem later, but never introducing an avoidable window of opportunity for criminals is worth breaking the build. It's also likely to be pretty rare compared to the other cases we've talked about.
+Everything we've talked about so far is about finding out you have a vulnerability in production. A build-breaking check **when you push a change to your dependencies** will stop you introducing a dependency with a known vulnerability. Your scheduled check would catch the problem later, but never introducing an avoidable window of opportunity for criminals is worth breaking the build. It's also likely to rarely break compared to the other cases we've talked about.
 
 ## Register and Notify
 
