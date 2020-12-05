@@ -75,7 +75,7 @@ Everything we've talked about so far is about finding out you have a vulnerabili
 
 I've had a little informal experience with Snyk lately, and it seems to offer a third option which might point us toward a brighter future. Instead of constantly checking your dependencies in each build, you push your dependency lists to them, and they notify you when a vulnerability is announced that affects you.
 
-In my opinion, that's a really appealing model. It's really neat to get the emails saying that a new vulnerability is out there that I affects my projects. Not only does it seem to minimise the time to find out about a vulnerability that affects you, but it cuts out the complexity of per-build scheduling. It's free for open source projects (yay) but you'll pay for commercial use.
+In my opinion, that's a really appealing model. It's really neat to get the emails saying that a new vulnerability is out there that affects my projects. Not only does it seem to minimise the time to find out about a vulnerability that affects you, but it cuts out the complexity of per-build scheduling. It's free for open source projects (yay) but you'll pay for commercial use.
 
 ## Details, Details
 
