@@ -14,7 +14,7 @@ description: Should you check dependencies on every push?
     attr="Photo by [Michael Geiger](https://unsplash.com/@jackson_893) on Unsplash" >}}
 
 
-These days, checking your dependencies for vulnerabilities is a common practice.
+Following high-profile incidents like the [2017 Equifax Breach](https://www.wired.com/story/equifax-breach-no-excuse/), checking your dependencies for vulnerabilities is a common practice today.
 We can use great tools like [OWASP Dependency Check](https://jeremylong.github.io/DependencyCheck/), [Trivy](https://github.com/aquasecurity/trivy) and [Snyk](https://snyk.io) in our builds to raise the alarm when vulnerabilities are found.
 
 The question that I find comes up isn't **whether** we should check dependencies - but **when**?
