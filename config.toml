@@ -47,3 +47,6 @@ url = "https://twitter.com/brabster"
 icon = "fas fa-envelope"
 title = "e-mail"
 url = "mailto:paul@tempered.works"
+
+[markup.goldmark.renderer]
+unsafe = true

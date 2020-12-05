@@ -10,9 +10,8 @@ tags:
 description: What should I focus on when teaching machine learning?
 ---
 
-<div class="cover-image">
-  <img src="thisisengineering-raeng-GzDrm7SYQ0g-unsplash.jpg" title="A woman writing down mathematical equations whilst silhouetted against a bright white screen"></img>
-  <p class="image-credit">Photo by <a href="https://unsplash.com/@thisisengineering">ThisisEngineering RAEng</a> on Unsplash</p>
-</div>
+{{< figure src="thisisengineering-raeng-GzDrm7SYQ0g-unsplash.jpg"
+  alt="A person writing down mathematical equations whilst silhouetted against a bright white screen"
+  caption="Photo by [ThisisEngineering RAEng](https://unsplash.com/@thisisengineering) on Unsplash" >}}
 
 

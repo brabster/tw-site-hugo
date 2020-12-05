@@ -1,5 +1,5 @@
 ---
-title: Dependency Checking
+title: Checking your Depedencies
 date: 2020-12-03
 category: DevOps
 tags:
@@ -9,45 +9,67 @@ tags:
 description: Should you check dependencies on every push?
 ---
 
+{{< figure src="ransomware.jpg"
+    alt="A skull and crossbones on a laptop screen"
+    attr="Photo by [Michael Geiger](https://unsplash.com/@jackson_893) on Unsplash" >}}
+
+
 These days, checking your dependencies for vulnerabilities is a common practice.
 We can use great tools like [OWASP Dependency Check](https://jeremylong.github.io/DependencyCheck/), [Trivy](https://github.com/aquasecurity/trivy) and [Snyk](https://snyk.io) in our builds to raise the alarm when vulnerabilities are found.
 
-The question that I find comes up isn't whether we should check dependencies - but **when**?
+The question that I find comes up isn't **whether** we should check dependencies - but **when**?
 
 My thinking, argued in the rest of the post, is that:
 
-- check on push is inadequate
-- scheduling your dependency check is usually the best solution
-- checking on push in addition to checking on a schedule adds little to no real value
+- check on push alone is inadequate
+- scheduling your dependency check is probably the best solution
+- check on every push in addition to checking on a schedule adds little to no real value
+- check on push when changing dependencies is a valuable addition to check on schedule
 - services with a publish-subscribe model for dependency checking are an alternative worth consideration
 
 ## Check on Push
 
+{{< figure src="push.jpg"
+    alt="A push sign on a door"
+    attr="Photo by [Tim Mossholder](https://unsplash.com/@timmossholder) on Unsplash" >}}
+
 I'd bet the first time you put a dependency check into your build, you did what I did. You run the check when you push. When the check fails, you break the build.
 
-On its own, it's a terrible solution. A vulnerability can be released at any time, regardless of when you happen to push changes. You might never find out that a service you're not actively working on has a known and fixable vulnerability - and that might be how the criminals who stole your customer data got in. Ouch.
+On its own, it's a terrible solution. A vulnerability can be released at any time, regardless of when you happen to push changes. How will you find out that a service you're not actively working on has a known and fixable vulnerability? One that might endin up being how the criminals who stole your customer data got in. Ouch.
 
 There's a nasty tradeoff with this approach, too. I've pushed a change to a repository in a highly capable and fast-moving remote-first team and had the build fail because a vulnerability happened to just have been released. I stop, scrambling to see why my build failed. People around me are pushing and having their builds fail too. Half the team screeches to a halt and has to co-ordinate looking at the vulnerability, deciding what to do and getting that change made, pushed and the build made green again. In a less well co-ordinated team (or the same team on a bad day) he whole thing can quickly resemble a motorway pile-up.
 
 Is it a worthwhile tradeoff to jump on that vulnerability as quickly as possible? The safe answer is "yes, of course, because security"  - but I'm going with no, not in most teams.
 
-What if the same vulnerability had been announced a few hours later, after the last push of the day? Would anyone have looked at it before the following morning, twelve-or-more hours later? If it was the Thursday before the UK's Easter four-day holiday, we're talking around 100 hours before anyone's due to push again.
+What if the same vulnerability had been announced a few hours later, after the last push of the day? Would anyone have looked at it before the following morning, twelve-or-more hours later? If it was the Thursday before the UK's Easter four-day holiday, we're talking around 100 hours before anyone's due to push again!
 
 Your time between a vulnerability that affects you becoming public knowledge and you becoming aware of it varies unpredictably between seconds and never. Not good.
 
 ## Check on Schedule
 
+{{< figure src="eggtimer.jpg"
+    alt="An eggtimer"
+    attr="Photo by [Aron Visuals](https://unsplash.com/@aronvisuals) on Unsplash" >}}
+
 To address those issues you'll set up a scheduled build. It runs the dependency check and alerts the team to issues rather than breaking the build. Now you've got a specific worst-case time to discovery. A nightly build sets that time to 24 hours, but you could schedule more frequently - an hourly build means you'll know within the hour.
 
 Scheduling your dependency check works regardless of how frequently you push. You don't get the broken build knocking unrelated work off track and you can plan your vulnerability management activities into your team's roles and other activities.
 
-Now that you know, worst case, how long it will take you to discover a vulnerability, you can start thinking about your vulnerability management as part of how you run your service. It forces you to accept the inescapable reality that there's a delay between a vulnerability being announced and you becoming aware that you're affected. If you're anything like me, that will mean you'll start worrying more about how to respond effectively. You'll start asking questions you hadn't though of before, like:
+Now that you know, worst case, how long it will take you to discover a vulnerability, you can start thinking about your vulnerability management as part of how you run your service. It forces you to accept the inescapable, nauseating reality that there's a delay between a vulnerability being made public knowledge and you becoming aware that you're affected. A window of opportunity has been open in your service for criminals and you just found out about it. If you're anything like me, you'll start worrying more about how to respond effectively. You'll start asking questions you hadn't though of before, like:
 
 - How do I know that I wasn't already compromised?
-- How do I respond efficiently when half a dozen repositories are affected by a vulnerability in a common library?
+- How do I respond efficiently when multiple repositories are affected by a vulnerability in a common library?
 - How can I be sure I'm actually running scheduled checks across multiple repositories?
 
-One last question: should you still check on push? You could, and it would be much less disruptive now you have an alerting channel that doesn't break the build. I'd argue there's not much value and some cost of unplanned disruption in doing so though, once you have your scheduled builds and agreed your response times. I'd advocate for focusing more on an effective response to the vulnerability alerts you get from your scheduled checks.
+Should you check on every push as well? I'd argue there's not much value and some cost of unplanned disruption in doing so, once you have your scheduled builds and response times. I'd advocate for focusing more on an effective response to the vulnerability alerts you get from your scheduled checks.
+
+## Breaking Check on Dependency Change
+
+{{< figure src="stop.jpg"
+    alt="A stop sign"
+    attr="Photo by [Will Porada](https://unsplash.com/@will0629) on Unsplash" >}}
+
+Everything we've talked about so far is about finding out you have a vulnerability in production. A build-breaking check **when you push a change to your dependencies** will stop you introducing a dependency with a known vulnerability. Your scheduled check would catch the problem later, but never introducing an avoidable window of opportunity for criminals is worth breaking the build. It's also likely to be pretty rare compared to the other cases we've talked about.
 
 ## Register and Notify
 
@@ -55,3 +77,6 @@ I've had a little informal experience with Snyk lately, and it seems to offer a 
 
 In my opinion, that's a really appealing model. It's really neat to get the emails saying that a new vulnerability is out there that I affects my projects. Not only does it seem to minimise the time to find out about a vulnerability that affects you, but it cuts out the complexity of per-build scheduling. It's free for open source projects (yay) but you'll pay for commercial use.
 
+## Details, Details
+
+Dependency checking is a great technique for managing your security risks. **In theory**. In reality, regardless of when you do your checks, there are some real challenges in ensuring that checks are being done where they should be, when they should be. The most diligent teams will struggle with the alert fatigue that comes from lots of repositories and lots of checks. That's a topic for another day...
