@@ -41,7 +41,7 @@ What if the same vulnerability had been announced a few hours later, after the l
 
 The time between a vulnerability that affects you becoming public knowledge and you becoming aware of it varies unpredictably between seconds and never, in the case of the project no one is working on anymore. That's not good.
 
-## ⏲️ Check on Schedule
+## ⏰ Check on Schedule
 
 To address those issues you'll set up a scheduled build. It runs the dependency check and alerts the team to issues rather than breaking the build. Now you've got a specific worst-case time to discovery. A nightly build sets that time to 24 hours, but you could schedule more frequently - an hourly build means you'll know within the hour.
 
