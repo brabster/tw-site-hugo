@@ -47,7 +47,7 @@ To address those issues you'll set up a scheduled build. It runs the dependency 
 
 Scheduling your dependency check works regardless of how frequently you push. You don't get the broken build knocking unrelated work off track and you can plan your vulnerability management activities into your team's roles and other activities.
 
-Now that you know, worst case, how long it will take you to discover a vulnerability, you can start thinking about your vulnerability management as part of how you run your service. It forces you to accept the inescapable, nauseating reality that there's a delay between a vulnerability being made public knowledge and you becoming aware that you're affected. A window of opportunity has been open in your service for criminals and you just found out about it. If you're anything like me, you'll start worrying more about how to respond effectively. You'll start asking questions you hadn't though of before, like:
+Now that you know, worst case, how long it will take you to discover a vulnerability, you can start thinking about your vulnerability management as part of how you run your service. It forces you to accept the inescapable, nauseating reality that there's a delay between a vulnerability being made public knowledge and you becoming aware that you're affected. A window of opportunity has been open in your service for criminals for some period of time and you just found out about it. If you're anything like me, you'll start worrying more about how to respond effectively. You'll start asking questions, like:
 
 - How do I know that I wasn't already compromised?
 - How do I respond efficiently when multiple repositories are affected by a vulnerability in a common library?
