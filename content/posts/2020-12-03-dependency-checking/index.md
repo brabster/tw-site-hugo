@@ -9,10 +9,11 @@ tags:
 description: Should you check dependencies on every push?
 ---
 
-{{< figure src="ransomware.jpg"
+{{< img src="ransomware.jpg"
     alt="A skull and crossbones on a laptop screen"
-    attr="Photo by [Michael Geiger](https://unsplash.com/@jackson_893) on Unsplash" >}}
-
+    >}}
+<!-- attr="Photo by [Michael Geiger](https://unsplash.com/@jackson_893) on Unsplash" -->
+    
 
 Following high-profile incidents like the [2017 Equifax Breach](https://www.wired.com/story/equifax-breach-no-excuse/), checking your dependencies for vulnerabilities is a common practice today.
 We can use great tools like [OWASP Dependency Check](https://jeremylong.github.io/DependencyCheck/), [Trivy](https://github.com/aquasecurity/trivy) and [Snyk](https://snyk.io) in our builds to raise the alarm when vulnerabilities are found.
@@ -29,9 +30,11 @@ My thinking, argued in the rest of the post, is that:
 
 ## Check on Push
 
-{{< figure src="push.jpg"
+{{< img src="push.jpg"
     alt="A push sign on a door"
-    attr="Photo by [Tim Mossholder](https://unsplash.com/@timmossholder) on Unsplash" >}}
+    >}}
+    <!-- attr="Photo by [Tim Mossholder](https://unsplash.com/@timmossholder) on Unsplash"  -->
+    
 
 I'd bet the first time you put a dependency check into your build, you did what I did. You run the check when you push. When the check fails, you break the build.
 
@@ -47,9 +50,11 @@ The time between a vulnerability that affects you becoming public knowledge and 
 
 ## Check on Schedule
 
-{{< figure src="eggtimer.jpg"
+{{< img src="eggtimer.jpg"
     alt="An eggtimer"
-    attr="Photo by [Aron Visuals](https://unsplash.com/@aronvisuals) on Unsplash" >}}
+    >}}
+    <!-- attr="Photo by [Aron Visuals](https://unsplash.com/@aronvisuals) on Unsplash" -->
+    
 
 To address those issues you'll set up a scheduled build. It runs the dependency check and alerts the team to issues rather than breaking the build. Now you've got a specific worst-case time to discovery. A nightly build sets that time to 24 hours, but you could schedule more frequently - an hourly build means you'll know within the hour.
 
@@ -65,9 +70,11 @@ Should you check on every push as well? I'd argue there's no real value and some
 
 ## Breaking Check on Dependency Change
 
-{{< figure src="stop.jpg"
+{{< img src="stop.jpg"
     alt="A stop sign"
-    attr="Photo by [Will Porada](https://unsplash.com/@will0629) on Unsplash" >}}
+    >}}
+    <!-- attr="Photo by [Will Porada](https://unsplash.com/@will0629) on Unsplash" -->
+    
 
 Everything we've talked about so far is about finding out you have a vulnerability in production. A build-breaking check **when you push a change to your dependencies** will stop you introducing a dependency with a known vulnerability. Your scheduled check would catch the problem later, but never introducing an avoidable window of opportunity for criminals is worth breaking the build. It's also likely to rarely break compared to the other cases we've talked about.
 
