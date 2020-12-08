@@ -10,10 +10,9 @@ tags:
 description: Using Helm with Argo is easy with a --post-renderer.
 ---
 
-<div class="cover-image">
-  <img src="cover.jpg" title="White and pink sailboat at sea during the daytime"></img>
-  <p class="image-credit">Photo by <a href="https://unsplash.com/@clicclac">F S</a> on Unsplash</p>
-</div>
+{{< res-figure figcaption="Photo by https://unsplash.com/@clicclac" >}}
+  {{< img src="cover.jpg" alt="White and pink sailboat at sea during the daytime" >}}
+{{< /res-figure >}}
 
 Argo is a lightweight, Kubernetes-native workflow solution.
 Workflows are implemented as Kubernetes manifests, so Helm is a natural choice for packaging them.
@@ -99,6 +98,8 @@ TEST SUITE: None
 ```
 Running the workflow shows that both types of interpolation have been applied successfully. Note the release name `my-release` in the workflow and pod names, and the workflow UID in the whalesay output.
 
-![Screenshot of the Helm-processed workflow running successfully, with interpolated values visible](argo-success.png)
+{{< figure src="argo-success.png"
+ alt="Argo web UI, showing the workflow output"
+ caption="The Helm-processed workflow running successfully, with interpolated values visible" >}}
 
 The [Github repo](https://github.com/brabster/helm-argo-example) includes the working chart in the `working-chart` directory and the post-renderer script at the root.

@@ -12,13 +12,11 @@ tags:
 description: For those times when a script is both missing and exactly where it should be.
 ---
 
-<div class="cover-image">
-  <img src="bradley-howington-P6rYiIgGT6k-unsplash.jpg" title="A bear, lying on its side facepalming"></img>
-  <p class="image-credit">Photo by <a href="https://unsplash.com/@bradleyhowington">Bradley Howington</a> on Unsplash</p>
-</div>
-
-
 So this annoying and trivial little problem catches me out every so often. I am always misled by the error message! You'll see what I mean shortly. For context, it usually happens when I'm working in Docker containers on a build.
+
+{{< res-figure figcaption="Photo by https://unsplash.com/@bradleyhowington" >}}
+  {{< img src="bradley-howington-P6rYiIgGT6k-unsplash.jpg" alt="A bear, lying on its side facepalming" >}}
+{{< /res-figure >}}
 
 Let's say we have a script like this, saved as `bash-script.sh`:
 
