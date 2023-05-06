@@ -27,7 +27,6 @@ Contact me to see how I can help at [paul@tempered.works](mailto:paul@tempered.w
 
 ## Talks and Projects 
 
-- Contributor to Equal Experts Playbooks [Data Pipelines](https://data-pipeline.playbook.ee/), [MLOps](https://mlops.playbook.ee/) and case study [The art of cloud search: How John Lewis & Partners led the way](https://www.equalexperts.com/case-study/the-art-of-cloud-search-how-john-lewis-partners-led-the-way/)
 - [Content at Equal Experts](https://equalexperts.com)
   - [Data Pipeline Playbook](https://data-pipeline.playbook.ee/)
   - [MLOps Playbook](https://mlops.playbook.ee/)
