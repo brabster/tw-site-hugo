@@ -17,16 +17,16 @@ favicon = "/favicons/"
   url = "/"
 
   [[menu.main]]
-  name = "Posts"
-  weight = 200
-  identifier = "posts"
-  url = "/posts/"
-
-  [[menu.main]]
   name = "About"
-  weight = 300
+  weight = 200
   identifier = "about"
   url = "/about/"
+
+  [[menu.main]]
+  name = "Posts"
+  weight = 300
+  identifier = "posts"
+  url = "/posts/"
 
 [[params.socialIcons]]
 icon = "fab fa-linkedin"
