@@ -46,5 +46,15 @@ markup:
     renderer:
       unsafe: true
   highlight:
-    style: emacs
+    style: monokai
     lineNos: true
+
+server:
+  headers:
+  - for: /**
+    values:
+      X-Frame-Options: "DENY"
+      X-XSS-Protection: "1; mode=block"
+      X-Content-Type-Options: "nosniff"
+      Referrer-Policy: "no-referrer-when-downgrade"
+      Content-Security-Policy: "default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://use.fontawesome.com https://code.jquery.com"

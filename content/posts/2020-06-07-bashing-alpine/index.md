@@ -39,7 +39,7 @@ RUN ./bash-script.sh
 
 Let's build and see what happens:
 
-```console
+```bashsession
 $ podman build -f bash.Dockerfile .
 STEP 1: FROM alpine
 STEP 2: COPY bash-script.sh .
@@ -69,7 +69,7 @@ COPY sh-script.sh .
 RUN ./sh-script.sh
 ```
 Building, we get:
-```console
+```bashsession
 $ podman build -f sh.Dockerfile .
 STEP 1: FROM alpine
 STEP 2: COPY sh-script.sh .
