@@ -38,7 +38,7 @@ spec:
 
 This example is available in a [Github repo](https://github.com/brabster/helm-argo-example), in the `broken-chart` directory. When we try to install this template, we get an error because Helm tries to interpolate the Argo variable `workflow.name`.
 
-```
+```bashsession
 $ helm install broken-example ./broken-chart
 Error: parse error at (argo-hello-world.example/templates/hello-world.yml:12): function "workflow" not defined
 ```
