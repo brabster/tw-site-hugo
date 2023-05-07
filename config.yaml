@@ -2,6 +2,9 @@ baseurl: https://tempered.works
 languageCode: en-gb
 theme: beautifulhugo
 title: Tempered Works Ltd.
+pygmentsCodeFences: true
+pygmentsUseClasses: true
+
 
 params:
   hometitle: Tempered Works
@@ -46,7 +49,7 @@ markup:
     renderer:
       unsafe: true
   highlight:
-    style: native
+    style: molokai
     lineNos: true
 
 server:

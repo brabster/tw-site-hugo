@@ -86,7 +86,7 @@ sed 's/{-/{{/'g | sed 's/-}/}}/g' <&0
 
 We'll call that script `argo-post-processor.sh` and save it in the current working directory. Let's use it to install the chart.
 
-```
+```bashsession
 $ helm install my-release ./working-chart --post-renderer ./argo-post-processor.sh 
 
 NAME: my-release
