@@ -7,6 +7,9 @@
     Referrer-Policy = "no-referrer-when-downgrade"
     Content-Security-Policy = "default-src 'unsafe-inline' 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://use.fontawesome.com https://code.jquery.com"
 
+[context.production.environment]
+  HUGO_VERSION = "0.107.0"
+
 [build]
 publish = "public"
 command = "hugo"
