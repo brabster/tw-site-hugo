@@ -50,7 +50,7 @@ markup:
       unsafe: true
   highlight:
     style: molokai
-    lineNos: true
+    lineNos: false
 
 server:
   headers:
