@@ -35,7 +35,6 @@ FROM alpine
 COPY bash-script.sh .
 
 RUN ./bash-script.sh
-
 ```
 
 Let's build and see what happens:

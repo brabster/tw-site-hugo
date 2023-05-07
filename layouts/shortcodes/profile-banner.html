@@ -1,0 +1,11 @@
+{{ $avatar := resources.Get "/images/profile_small.gif" }}
+
+<span>
+  <img src="{{ $avatar.RelPermalink }}"
+    alt="Profile photo"
+    style="display: inline"></img>
+  Paul Brabban,
+  <a href="https://www.equalexperts.com/blog/author/paul-brabban/" target="_blank">
+    Lead Consultant at Equal Experts
+  </a>
+</span>

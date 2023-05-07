@@ -1,18 +1,7 @@
 ---
-title: About
 ---
 
-![Profile photo](profile_small.gif)
-
-Alongside software development and data engineering,
-I've worked in analytics, marketing, machine learning and cloud computing.
-I love solving problems and I’m flexible enough to help you.
-
-I'm a [Lead Consultant at Equal Experts](https://www.equalexperts.com/blog/author/paul-brabban/).
-My experience extends to leading teams, technical architecture and product development.
-Whilst I'm primarily a hands-on software developer and data engineer I'm happy taking on broader roles.
-
-Contact me to see how I can help at [paul@tempered.works](mailto:paul@tempered.works).
+{{< profile-banner >}}
 
 ## Recent Engagements
 
@@ -22,8 +11,6 @@ Contact me to see how I can help at [paul@tempered.works](mailto:paul@tempered.w
 - Data Streaming and Data Ingestion with [Dunnhumby](https://www.dunnhumby.com/) through [People Source](https://www.peoplesource.co.uk)
 - Software Developer with fashion and retail startup Real Looker Ltd.
 - Principal Data Engineer with [Sky Betting and Gaming](https://skybetcareers.com/about-us)
-
-[My CV](PaulBrabbanCV.pdf) is available for more detail about my skills and engagements.
 
 ## Talks and Projects 
 
@@ -41,6 +28,11 @@ Contact me to see how I can help at [paul@tempered.works](mailto:paul@tempered.w
 - [Crucible](https://github.com/brabster/crucible) - CloudFormation Templates in Clojure - April 2016
 - [Pattern Recognition in Computer System Events](https://studentnet.cs.manchester.ac.uk/resources/library/thesis_abstracts/MSc12/FullText/Brabban-Paul-fulltext.pdf) - MSc. Dissertation - 2013
 - [Tracking of physical locations](https://patents.google.com/patent/US20140051463) - Patent - 2011
+
+## CV
+
+[My CV](/paul_brabban_cv.pdf) is available for more detail about my skills and engagements.
+
 
 ## Company Details
 

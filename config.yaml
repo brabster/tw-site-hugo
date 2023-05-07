@@ -1,0 +1,49 @@
+languageCode: en-gb
+theme: beautifulhugo
+title: Tempered Works Ltd.
+
+params:
+  hometitle: Tempered Works
+  subtitle: Software and Data Consulting Services
+  logo: /favicons/android-chrome-192x192.png
+  profilePicture: /favicons/android-chrome-512x512.png
+  favicon: /favicons/favicon.ico
+  mainSections: [post, posts]
+  rss: true
+  comments: true
+  readingTime: true
+  wordCount: false
+  selfHosted: true
+  socialShare: true
+  showRelatedPosts: true
+
+author:
+  name: Paul Brabban
+  email: paul@tempered.works
+  github: brabster
+  linkedin: paulbrabban
+  twitter: brabter
+
+
+menu:
+  main:
+    - name: Portfolio
+      weight: 200
+      url: /portfolio/
+    - name: Blog
+      weight: 300
+      url: /posts/
+    - name: Tags
+      weight: 400
+      url: /tags/
+    - name: Company
+      weight: 500
+      url: /company/
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    style: monokai
+    lineNos: true
