@@ -5,7 +5,8 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "no-referrer-when-downgrade"
-    
+    Content-Security-Policy = "default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelvr.com https://cdnjs.cloudflare.com https://maxcdn.bootstrapcdn.com https://use.fontawesome.com"
+
 [build]
 publish = "public"
 command = "hugo --gc --minify"
