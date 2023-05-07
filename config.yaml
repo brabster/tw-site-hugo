@@ -46,5 +46,5 @@ markup:
     renderer:
       unsafe: true
   highlight:
-    style: monokai
+    style: monokailight
     lineNos: true
