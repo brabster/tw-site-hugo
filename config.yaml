@@ -13,7 +13,7 @@ params:
   comments: true
   readingTime: true
   wordCount: false
-  selfHosted: true
+  selfHosted: false
   socialShare: true
   showRelatedPosts: true
 
