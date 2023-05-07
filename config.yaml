@@ -46,7 +46,7 @@ markup:
     renderer:
       unsafe: true
   highlight:
-    style: monokai
+    style: native
     lineNos: true
 
 server:
