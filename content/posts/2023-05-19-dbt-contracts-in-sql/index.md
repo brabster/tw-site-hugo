@@ -2,6 +2,7 @@
 title: Consumer-Driven Contracts SQL Data Products
 date: 2023-05-19
 category: SQL
+draft: true
 tags:
  - dbt
  - sql

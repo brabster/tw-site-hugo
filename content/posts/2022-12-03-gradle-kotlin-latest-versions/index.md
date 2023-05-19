@@ -2,6 +2,7 @@
 title: Latest Stable Versions with Kotlin and Gradle
 date: 2022-12-03
 category: DevOps
+draft: true
 tags:
  - gotcha
  - gradle
