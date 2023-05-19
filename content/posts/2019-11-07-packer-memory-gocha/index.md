@@ -6,6 +6,10 @@ tags:
  - packer
  - fedora
  - dracut
+summary: |
+    Lately, I've been working in virtual machines to strengthen my security posture for clients.
+    There's more to come on that, but for now I wanted to share a fix for a confusing problem I had.
+    I was trying to install Fedora 31 as a [Packer](https://www.packer.io/) build.
 ---
 
 It's been a while!

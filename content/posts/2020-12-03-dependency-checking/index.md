@@ -14,6 +14,8 @@ We can use great tools like [OWASP Dependency Check](https://jeremylong.github.i
 
 The question that I find comes up isn't **whether** we should check dependencies - but **when**?
 
+<!--more-->
+
 My thinking, argued in the rest of the post, is that:
 
 - **check on push** alone is inadequate
