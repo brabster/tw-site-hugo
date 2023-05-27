@@ -4,6 +4,7 @@ theme: beautifulhugo
 title: Tempered Works Ltd.
 pygmentsCodeFences: true
 pygmentsUseClasses: true
+enableGitInfo: true
 
 
 params:

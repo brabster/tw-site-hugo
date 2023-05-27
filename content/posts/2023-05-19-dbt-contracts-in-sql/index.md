@@ -1,6 +1,6 @@
 ---
 title: Consumer-Driven Contracts for SQL Data Products
-date: 2023-05-19
+date: 2023-05-27
 category: SQL
 tags:
  - dbt
