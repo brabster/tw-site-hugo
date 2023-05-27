@@ -15,7 +15,7 @@ tags:
 
 ## Why Contract Testing?
 
-[Pact's Introduction](https://docs.pact.io/) gives a great overview of what contract testing is and why you need it. orrowing their words to explain what a contract is:
+[Pact's Introduction](https://docs.pact.io/) gives a great overview of what contract testing is and why you need it. Borrowing their words to explain what a contract is:
 
 > In general, a contract is between a consumer (for example, a client that wants to receive some data) and a provider (for example, an API on a server that provides the data the client needs).
 
@@ -35,7 +35,7 @@ Consumers can only see `orders` and `customers`, so we only accept contracts aga
 
 ## Jaffle Sales
 
-Marketing need to run a variety of ad-hoc reports about orders in the various order statuses. They don't want to come in one morning to find their queries don't work, so they want to make a contract. With our help them put together the PR for this SQL.
+Marketing need to run a variety of ad-hoc reports about orders in the various order statuses. They don't want to come in one morning to find their queries don't work, so they want to make a contract. With our help they put together the PR for this SQL.
 
 ```sql
 {{ config(error_if = '<3', warn_if = '<3') }} -- configure the test to fail if there are not enough statusres
@@ -59,7 +59,7 @@ Well, it's maybe not how I would have written it but I understand it and it work
 
 The CEO is convinced that the next big thing in the jaffle industry is recommendations, so we've got a new consumer. This consumer needs to know a little about customers and orders, then they'll join that with other information in the business and perform some machine learning magic.
 
-After some heavy duty, caffeine-fuelled data sciencing, the recommender team settles on this query to produce the data they need to train and test their model.:
+After some heavy duty, caffeine-fuelled data sciencing, the recommender team settles on this query to produce the data they need to train and test their model:
 
 ```sql
 SELECT
@@ -73,7 +73,7 @@ WHERE order_date > CURRENT_DATE - INTERVAL 90 DAY
 
 The data produced by this query is munched by some machine learning models wrapped in Python code. The team building the consumer product is working flat out and could really do with some reliability from the producer, so they're happy to pop a ticket on the board to set up a contract with the Jaffle Shop producer.
 
-The recommender team could start simple with the query as it stands as a contract. We can turn it into an efficient test that the expected columns are present like this:
+The recommender team could start simple with the query as it stands as a contract. We can turn it into a test that the expected columns are present and correctly typed like this:
 
 ```sql
 SELECT
@@ -115,17 +115,17 @@ So far so good - if the consumers had submitted a contract test that didn't work
 
 ## Roles and Responsibilities
 
-When a consumer team submit their PR, we have an opportunity to take a look and request changes before accepting. The recommender team's contract, for example, could be expensive as it actually processes every row in the relation, even though it's really just doing a schema test. Depending on our database technology, we could ask them to use to the information schema to do that, or just add a `LIMIT 0` so that the query optimiser can recognise that no processing in necessary and optimise it away.
+When a consumer team submit their PR, we have an opportunity to take a look and request changes before accepting. The recommender team's contract, for example, could be expensive as it actually processes every row in the relation, even though it's really just doing a schema test. Depending on our database technology, we could ask them to use the information schema to do that, or just add a `LIMIT 0` so that the query optimiser can recognise that no processing in necessary and optimise it away.
 
 A key consideration in my approach to this is that the provider is not forced to accept a consumer contract.
 Providers are naturally incentivised to try to accept consumer contracts. Amongst the stability and insights benefits, a consumer-driven contract capability shifts some responsiblity for stability from the producer onto consumers. A consumer can't really blame a provider for breaking somehing they never said they needed. Feels kinda liberating, actually.
 The provider needs to be able to refuse unreasonable or incorrect expecations, so that the emphasis is on a collaborative effort between equal parties for mutual benefit.
 
-A note on usage - a lot of insight into expecatations can be gleaned from reviewing usage logs - which queries were run, by whom, when. I've found some challenges in doing this well, in particular that without "platform" support, a provider on a modern data warehouse won't have the usage information as it will have been logged in the consumer's account or project which the producer won't have access to. Even if it worked well, a contract allows a consumer to express a critically important query that **must work**, but is only run run, say, once a year as part of financial year end reporting.
+A note on usage - a lot of insight into expecatations can be gleaned from reviewing usage logs - which queries were run, by whom, when. I've found some challenges in doing this well, in particular that without "platform" support, a provider on a modern data warehouse won't have the usage information as it will have been logged in the consumer's account or project which the producer won't have access to. Even if it worked well, a contract allows a consumer to express a critically important query that **must work**, but is only run run, say, once a year as part of financial year end reporting. That's a big benefit, those infrequent, important queries are a killer!
 
 ## Move Fast and (Don't) Break Stuff
 
-The Jaffle Shop data sources are seed `.csv` files. The column types are [inferred from the data](https://docs.getdbt.com/faqs/seeds/seed-datatypes). That means that in the Jaffle Shop data, IDs are integers. The product team notices this unexpected behaviour and decides to fix it (in principle IDs are strings, not integers and on the data warehouse technology they use, strings are more efficient as join keys). They start that change, adding a snippet of YAML to `dbt_package.yml`, telling dbt to treat `order_id` (which is column `id` in seed `raw_orders`) as an string.
+The Jaffle Shop data sources are seed `.csv` files. The column types are [inferred from the data](https://docs.getdbt.com/faqs/seeds/seed-datatypes). That means that in the Jaffle Shop data, IDs are integers. The product team notices this unexpected behaviour and decides to fix it (in principle IDs are strings, not integers and on the data warehouse technology they use, strings are more efficient as join keys). They start that change, adding a snippet of YAML to `dbt_package.yml`, telling dbt to treat `order_id` (which is column `id` in seed `raw_orders`) as a string.
 
 ```yml
 seeds:
@@ -192,17 +192,17 @@ Does that matter? If I am a consumer of your "employee" data, and I expect the v
 
 ## Downsides
 
-This approach will be making some assumptions about the environment, for example use of git-based processes, automated testing and environment setups. Perhaps a future post describing the setup I advocate for and why.
+This approach will be making some assumptions about the environment, for example use of git-based processes, automated testing and environment setups. Perhaps a future post will describe the setup I advocate for and why.
 
-The cost of running the contracts will likely be attributed to the provider team, not the consumer team. That doesn't seem like a big deal, in my experience the internal dbt test suite is way more involved and expensive than the contracts, and there's value in the provider understanding the consumer needs that likely outweighs the cost for an organisation.
+The cost of running the contracts will likely be attributed by default to the provider team, not the consumer team. That doesn't seem like a big deal, in my experience the internal dbt test suite is way more involved and expensive than the contracts, and there's value in the provider understanding the consumer needs that likely outweighs the cost for an organisation.
 
 Contracts may effectively duplicate the same tests - not a big deal in my experience. You also can't use the declarative tests that dbt provides via YAML schemas, as far as I can tell - there can be only one definition of tests on a column. Not something that's caused me any problems in practice so far.
 
 ## Summary
 
-I think that consumer-driven contracts are important to run [Data as a Product](https://martinfowler.com/articles/data-mesh-principles.html#DataAsAProduct), one of the four [Data Mesh Principles](https://martinfowler.com/articles/data-mesh-principles.html) (no apologies for being a fan!). A neat thing about the approach I've outlined is that the benefits come with no need for additional software, services, or "data plaform". I prefer a more "living off the land", using tools I'm already using - in this case source control, a CI system, SQL and  optionally dbt. Less to learn for me, less to learn for everyone I'm working with.
+I think that consumer-driven contracts are important to run [Data as a Product](https://martinfowler.com/articles/data-mesh-principles.html#DataAsAProduct), one of the four [Data Mesh Principles](https://martinfowler.com/articles/data-mesh-principles.html) (no apologies for being a fan!). A neat thing about the approach I've outlined is that the benefits come with no need for additional software, services, or "data plaform". I prefer a more "living off the land" approach, using tools I'm already using - in this case source control, a CI system, SQL and  optionally dbt. Less to learn for me, less to learn for everyone I'm working with.
 
-In the approach outlined here , your consumers have full access to the power of SQL to make their assertions, and whilst dbt streamlines things, it's not strictly necessary that either provider or consumer uses it - the approach hinges on SQL can be adapted to suit your tooling. I think the only really dbt-specific thing I've used is `ref` - and if you're not using dbt, you'll have your own solution to swap out references if you need to change them as part of your quality assurance.
+In the approach outlined here, your consumers have full access to the power of SQL to make their assertions, and whilst dbt streamlines things, it's not strictly necessary that either provider or consumer uses it - the approach hinges on SQL can be adapted to suit your tooling. I think the only really dbt-specific thing I've used is `ref` - and if you're not using dbt, you'll have your own solution to swap out references if you need to change them as part of your quality assurance.
 
 A more flexible and powerful approach would have a separate repo for your contract tests.
 It's more to setup and manage, but gives access to the full capabilities and ease of use of dbt for contracts. Your consumers can define their queries as models and then make fine-grained assertions for them. You can deploy their models into a separate, suitably permissioned schema or database where they can be inspected for additional diagnostic capabilities.
