@@ -7,7 +7,12 @@ tags:
  - helm
  - argo
  - how-to
-description: Using Helm with Argo is easy with a --post-renderer.
+summary: |
+  Argo is a lightweight, Kubernetes-native workflow solution.
+  Workflows are implemented as Kubernetes manifests, so Helm is a natural choice for packaging them.
+
+  Helm also supports templating values which can be really helpful - but that's where we run into a problem. Helm uses mustache-style string interpolation, and so does Argo.
+
 ---
 
 {{< res-figure figcaption="Photo by https://unsplash.com/@clicclac" >}}
