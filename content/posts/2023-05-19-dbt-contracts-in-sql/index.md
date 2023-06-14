@@ -7,6 +7,7 @@ tags:
  - sql
  - contract-testing
  - data-mesh
+
 ---
 
 [dbt announced "model contracts"](https://docs.getdbt.com/docs/collaborate/govern/model-contracts) in the recent v1.5 release. This looks like a great feature for dbt, but reminded me that I've been using contract testing with dbt for a couple of years now, [inspired by Pact](https://docs.pact.io/) consumer-driven contracts, but never talked about it. There are some differences, for example: dbt's new feature is very dbt-centric, the approach I've used isn't - dbt certainly helps, but it isn't necessary. There's a [GitHub repo](https://github.com/brabster/dbt_simple_contracts) to follow along with.
@@ -21,7 +22,7 @@ tags:
 
 For an API-based digital product interface, a consumer-driven contract might say that in response to a query API call, the consumer expects a response in JSON containing a property "userId" that is a string. The provider can test any changes against the contract to ensure they do not break this expectation. The contract provides a means and a motivation for the consumer to clearly express important expectations.
 
-The same approach works with the same benefits for a SQL-based digital product interface. In this case, the same contract might say that in response to a SQL query, the consumer expects a table result containing a column "userId" that is a string.
+The same approach works with the same benefits for a SQL-based digital product interface. In this case, the same contract might say that in response to a SQL query, the consumer expects a tablular result containing a column "userId" that is a string.
 
 ## The Digital Jaffle Shop
 
@@ -84,7 +85,7 @@ SELECT
 FROM {{ ref('orders') }}
 ```
 
-Those operations on each column look a bit weird, but they effectively assert column type and generally produce a reasonably informative error message. I'm not making a statement on correctness of that approach, but if a consumer proposed it as a contract I'd have a hard time arguing the clarity and simplicity of it! If a column is missing, the query will error out.
+Those operations on each column look a bit weird, but they effectively assert column type and generally produce a reasonably informative error message. I'm not making a statement on correctness of that approach, but if a consumer proposed it as a contract I'd have a hard time arguing the clarity and simplicity of it!
 
 What both teams need is a way to provide their tests to the Jaffle Shop team in such a manner that it must pass before a change can be rolled out. I'll show you what I think is the simplest way to do that next.
 
@@ -118,10 +119,9 @@ So far so good - if the consumers had submitted a contract test that didn't work
 When a consumer team submit their PR, we have an opportunity to take a look and request changes before accepting. The recommender team's contract, for example, could be expensive as it actually processes every row in the relation, even though it's really just doing a schema test. Depending on our database technology, we could ask them to use the information schema to do that, or just add a `LIMIT 0` so that the query optimiser can recognise that no processing in necessary and optimise it away.
 
 A key consideration in my approach to this is that the provider is not forced to accept a consumer contract.
-Providers are naturally incentivised to try to accept consumer contracts. Amongst the stability and insights benefits, a consumer-driven contract capability shifts some responsiblity for stability from the producer onto consumers. A consumer can't really blame a provider for breaking somehing they never said they needed. Feels kinda liberating, actually.
-The provider needs to be able to refuse unreasonable or incorrect expecations, so that the emphasis is on a collaborative effort between equal parties for mutual benefit.
+Providers are naturally incentivised to try to accept consumer contracts. Besides the stability and insights benefits, a consumer-driven contract capability shifts some responsiblity for stability from the producer onto consumers. A consumer can't really blame a provider for breaking something they never said they needed.
 
-A note on usage - a lot of insight into expecatations can be gleaned from reviewing usage logs - which queries were run, by whom, when. I've found some challenges in doing this well, in particular that without "platform" support, a provider on a modern data warehouse won't have the usage information as it will have been logged in the consumer's account or project which the producer won't have access to. Even if it worked well, a contract allows a consumer to express a critically important query that **must work**, but is only run run, say, once a year as part of financial year end reporting. That's a big benefit, those infrequent, important queries are a killer!
+The provider must be able to refuse unreasonable or incorrect expecations, so that the emphasis is on a collaborative effort between equal parties for mutual benefit.
 
 ## Move Fast and (Don't) Break Stuff
 
@@ -180,6 +180,12 @@ jaffle_shop$ dbt test -s contracts
 Boom! Our tests all passed, but the contract tests failed. We know this change breaks our consumers' expectations, so we can adjust our approach accordingly.
 We might choose to project a new column that is string-typed alongside the int-typed column, to make the change non-breaking and allow consumers time to update. **Crucially we, the provider, know which consumers are affected and why, and we didn't find out by breaking them!** That's a really solid foundation to build trust and understanding on.
 
+## Usage vs. Contracts
+
+A lot of insight into expectations can be gleaned from reviewing usage logs - which queries were run, by whom, when. I've found some challenges in doing this well, in particular that without "platform" support, a provider on a modern data warehouse won't have the usage information as it will have been logged in the consumer's account or project which the producer won't have access to.
+
+Even if it worked well, there's still a gap. A contract allows a consumer to express a critically important query that **must work**, but is only run run, say, once a year as part of financial year end reporting. That's a big benefit. Those infrequent, important queries are easily missed and broken!
+
 ## Comparison to dbt Model Contracts
 
 I've not yet played with the new contracts functionality, let alone used it in anger. My goal here is to get my own thoughts and experience clear, so this is a quick comparison based on my reading of the [documentation](https://docs.getdbt.com/docs/collaborate/govern/model-contracts) in May 2023 - it's shiny new functionality so the documentation may have changed by the time you read this.
@@ -196,7 +202,7 @@ This approach will be making some assumptions about the environment, for example
 
 The cost of running the contracts will likely be attributed by default to the provider team, not the consumer team. That doesn't seem like a big deal, in my experience the internal dbt test suite is way more involved and expensive than the contracts, and there's value in the provider understanding the consumer needs that likely outweighs the cost for an organisation.
 
-Contracts may effectively duplicate the same tests - not a big deal in my experience. You also can't use the declarative tests that dbt provides via YAML schemas, as far as I can tell - there can be only one definition of tests on a column. Not something that's caused me any problems in practice so far.
+Contracts may effectively duplicate the same tests. This is a feature, not a bug. If two consumers have a common expectation, you still need to link the expectation to both providers. I've not found it to be a problem. You also can't use the declarative tests that dbt provides via YAML schemas, as far as I can tell - there can be only one definition of tests on a column.
 
 ## Summary
 
@@ -204,8 +210,12 @@ I think that consumer-driven contracts are important to run [Data as a Product](
 
 In the approach outlined here, your consumers have full access to the power of SQL to make their assertions, and whilst dbt streamlines things, it's not strictly necessary that either provider or consumer uses it - the approach hinges on SQL can be adapted to suit your tooling. I think the only really dbt-specific thing I've used is `ref` - and if you're not using dbt, you'll have your own solution to swap out references if you need to change them as part of your quality assurance.
 
+I'm in two minds about using `ref`. Consumers can't directly use your `ref`s. By using a `ref` you're creating the possibility of the provider changing the location of a relation and having all the contracts pass, when the consumers queries will fail. Ideally you want to run contracts **before** you deploy to consumers, but consumers will refer to the relations you **actually** deploy to them. Expect an update at some point when I have a nice solution for this!
+
 A more flexible and powerful approach would have a separate repo for your contract tests.
 It's more to setup and manage, but gives access to the full capabilities and ease of use of dbt for contracts. Your consumers can define their queries as models and then make fine-grained assertions for them. You can deploy their models into a separate, suitably permissioned schema or database where they can be inspected for additional diagnostic capabilities.
+
+> edited 2023-06-14 for clarity and added commentary on use of `ref`
 
 [^nomenclature]: I use the less common term [`relation`](https://en.wikipedia.org/wiki/Relation_(database)) rather than `view` or `table` because a `relation` isn't specific and could be eitherI avoid `model` as it is a dbt-specific implementation detail rather than the interface consumers actually interact with.
 
