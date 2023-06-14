@@ -184,7 +184,7 @@ We might choose to project a new column that is string-typed alongside the int-t
 
 A lot of insight into expectations can be gleaned from reviewing usage logs - which queries were run, by whom, when. I've found some challenges in doing this well, in particular that without "platform" support, a provider on a modern data warehouse won't have the usage information as it will have been logged in the consumer's account or project which the producer won't have access to.
 
-Even if it worked well, there's still a gap. A contract allows a consumer to express a critically important query that **must work**, but is only run run, say, once a year as part of financial year end reporting. That's a big benefit. Those infrequent, important queries are easily missed and broken!
+Even if it worked well, there's still a gap. A contract allows a consumer to express a critically important query that **must work**, but is only run, say, once a year as part of financial year end reporting. That's a big benefit. Those infrequent, important queries are easily missed and broken!
 
 ## Comparison to dbt Model Contracts
 
