@@ -70,14 +70,6 @@ The impact of these kinds of issues will vary. Rounding errors on integer values
 
 We were able to capture these kinds of expectations in a SQL-based contract. These contracts run as part of the test suite during development and detect changes that break otherwise unstated and unchecked expectations before they affected the dashboards.
 
-## The Snapshot Report
-
-Alongside these dashboards, a scheduled point-in-time report needs to be produced, that tells a similar story alongside a narrative, and covering a different time period.
-
-For this report we found subset of the expectations we saw of the dashboard, although the different, fixed time period creates some differences. Additionally, as this report is generated on a schedule, it can be challenging to maintain specific expertise in the report with the ability to spot subtle problems.
-
-We considered contracts for this reporting process when we saw the current production process generate numerous questions about the correctness and completeness of the underlying data. Conversations framed around producing a data contract for the report seemed much more productive in helping capture expectations in an executable way that had never been written down before.
-
 ## What Worked Well
 
 - able to capture almost all the expectations we established
@@ -100,6 +92,8 @@ We considered contracts for this reporting process when we saw the current produ
     - ephemeral models worked well to capture this kind of reusable reference data
 - contract concept took a bit of explaining, and I'm probably still not doing a very good job of it!
 
-## Thanks!
+## Wrapping Up
 
-Thanks to the client teams I've worked with for their patience as we've kicked the tyres on these data contract ideas!
+There's more to tell in this story but I'll call it here for this post.
+
+Until next time - thanks to the client teams I've worked with for their patience as we've kicked the tyres on these data contract ideas!
