@@ -87,7 +87,7 @@ We were able to capture these kinds of expectations in a SQL-based contract. The
     - neat workaround to create an ephemeral view as `SELECT * FROM actual_schema.actual_model` and apply tests, docs - credit to team member JF for that one!
 - complex and labour-intensive to encode assertions based on dashboard and reporting needs
     - taking an iterative approach helps get some high-value canary contracts in first and stopping when the cost is perceived to exceed the value
-- mamy contract statements need the same reference data, such as date ranges for which specific data points are expected across multiple visualisations
+- many contract statements need the same reference data, such as date ranges for which specific data points are expected across multiple visualisations
     - made a decision from the outset to minimise leaking of contract-related machinery into the main dbt project
     - ephemeral models worked well to capture this kind of reusable reference data
 - contract concept took a bit of explaining, and I'm probably still not doing a very good job of it!
