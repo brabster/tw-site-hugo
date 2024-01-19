@@ -10,10 +10,11 @@ tags:
 
 ---
 
-Investigating Python package downloads with the public PyPI downloads dataset and Safety public database. This post covers how I've prepared and published the data to support this kind of analysis, including pure SQL functions to process Semver versions and constraints at scale. This is part of a broader investigation into vulnerability management and update behaviour.
+Investigating Python package downloads with the public PyPI downloads dataset and Safety public database. This post covers how I've prepared and published the data to support this kind of analysis, including pure SQL functions to process Semver versions and constraints at scale. This is part of a broader investigation into vulnerability management and update behaviour. Thanks to [Equal Experts](https://equalexperts.com) for supporting this content.
+
+{{< ee >}}
 
 <!--more-->
-
 
 
 ## PyPI BigQuery Dataset
