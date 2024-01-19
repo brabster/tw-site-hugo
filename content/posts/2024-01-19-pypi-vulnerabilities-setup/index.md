@@ -1,18 +1,19 @@
 ---
-title: Investigating Vulnerable Python Packages
+title: Analysing PyPI Downloads
 date: 2024-01-19
-category: Security
+category: Analytics
 tags:
  - python
  - vulnerabilities
+ - security
+ - dbt
 
 ---
 
-I try to automate updates of my software dependencies whereever I can, so try and minimise the risks I and my employer/client are exposed to.
-I've been thinking over that position carefully to challenge and justify my position.
-One task I set myself in this area was to see what I could learn about how the Python community handles dependencies and vulnerabilities.
+Investigating Python package downloads with the public PyPI downloads dataset and Safety public database. This post covers how I've prepared and published the data to support this kind of analysis, including pure SQL functions to process Semver versions and constraints at scale. This is part of a broader investigation into vulnerability management and update behaviour.
 
 <!--more-->
+
 
 
 ## PyPI BigQuery Dataset
@@ -59,7 +60,7 @@ That table is **4 million rows but only 26MB physical bytes**, so completely sol
 
 ### Compatible and Meaningful Vulnerability Data
 
-After a rather time-consuming and journey around sources of vulnerability data, I landed on a very simple solution. The good folks at [safetycli.com](https://safetycli.com) release a public updates to a vulnerability database each month on [GitHub](https://github.com/pyupio/safety-db). As well as `safety check`, this is the same data that [pipenv](https://pipenv.pypa.io/en/stable/advanced.html#detection-of-security-vulnerabilities) uses in its `pipenv check` cli function to tell you if you have any known vulnerable packages in your dependencies.
+After a rather time-consuming and journey around sources of vulnerability data, I landed on a very simple solution. The good folks at [safetycli.com](https://safetycli.com) release a public updates to a vulnerability database each month on [GitHub](https://github.com/pyupio/safety-db). As well as [`safety check`](https://pypi.org/project/safety/), this is the same data that [pipenv](https://pipenv.pypa.io/en/stable/advanced.html#detection-of-security-vulnerabilities) uses in its `pipenv check` cli function to tell you if you have any known vulnerable packages in your dependencies. (Be sure to check licence terms for commercial use of these packages...)
 
 That seems like a great start - I know that the vulnerability information has been made publicly available, is available in cli tools for community and that the semver constraints match those being used in those tools.
 
@@ -75,14 +76,26 @@ I couldn't find any functions I could call from BigQuery to process semver const
 
 You'll find the [functions and documentation](hthttps://github.com/brabster/pypi_vulnerabilities/blob/a0d55e20b88ccde4036c6d053abbf0cdb86a6b41/macros/ensure_udfs.sql) with [tests](https://github.com/brabster/pypi_vulnerabilities/tree/a0d55e20b88ccde4036c6d053abbf0cdb86a6b41/tests) in the repo - of course you can call them in BigQuery from `pypi-vulnerabilities.pypi_vulnerabilities_us`.
 
-The interface function, `matches_multi_spec(specs, package_version)` is used once, in [downloads_with_vulnerabilities](https://github.com/brabster/pypi_vulnerabilities/blob/a0d55e20b88ccde4036c6d053abbf0cdb86a6b41/models/downloads_with_vulnerabilities.sql#L8).
+The function `matches_multi_spec(specs, package_version)` is used once, in [downloads_with_vulnerabilities](https://github.com/brabster/pypi_vulnerabilities/blob/a0d55e20b88ccde4036c6d053abbf0cdb86a6b41/models/downloads_with_vulnerabilities.sql#L8).
 
 ```sql
+WITH examples AS (
+  SELECT '0.9' AS version
+  UNION ALL SELECT '1.0'
+  UNION ALL SELECT '1.1'
+  UNION ALL SELECT '2.0'
+  UNION ALL SELECT '2.1'
+  UNION ALL SELECT '3.0.0-alpha4'
+)
+
 SELECT
-    ...
-    {{ target.schema }}.matches_multi_spec(vuln.specs, download.package_version) was_known_vulnerable_when_downloaded
-FROM ...
+  *,
+  `pypi-vulnerabilities`.pypi_vulnerabilities_us.matches_multi_spec(['>1.0.0,<=2'], version) matches_constraint
+FROM examples
 ```
+
+![Example resolts of previous query](./assets/semver_example.png)
+
 
 I materialize this model as it takes a few seconds to process semver constraint matching over millions of rows and I'm really impatient (and I worry about burning rainforests for the sake of a tiny bit of work!)
 
@@ -90,17 +103,17 @@ I materialize this model as it takes a few seconds to process semver constraint 
 
 Given all that, the actual modelling part is relatively straightforward. I won't go into the details as there's a lot of detail and you can [see for yourself](https://github.com/brabster/pypi_vulnerabilities/tree/main/models).
 
-I'll mention my first use of the preview SQL syntax [CUBE](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#group_by_cube), in [this model](https://github.com/brabster/pypi_vulnerabilities/blob/a0d55e20b88ccde4036c6d053abbf0cdb86a6b41/models/download_vulnerability_cube.sql). It allows me to generate aggregations over permutations of groupings. I materialize this again as it takes 30-60s to execute, but then I can pull out aggregates consistently and efficiently for overall, by-installer and by-package style metrics. Big improvement over manually implementing multiple similar (see error-prone) views!
+I'll mention my first use of the preview SQL syntax [CUBE](https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax#group_by_cube), in [this model](https://github.com/brabster/pypi_vulnerabilities/blob/a0d55e20b88ccde4036c6d053abbf0cdb86a6b41/models/download_vulnerability_cube.sql). It allows me to generate aggregations over permutations of groupings. I materialize this again as it takes 30-60s to execute, but then I can pull out aggregates consistently and efficiently for overall, by-installer and by-package style metrics. Big improvement over manually implementing multiple similar (error-prone) views!
 
 ### GitHub Actions
 
-Having put all this together in dbt, I have easy access to deploy, test and perform data quality tests for it all. I set up a [GitHub actions workflow](https://github.com/brabster/pypi_vulnerabilities/blob/a0d55e20b88ccde4036c6d053abbf0cdb86a6b41/.github/workflows/deploy.yml) to build and test all this stuff before publishing it to the publicly available dataset I've mentioned before. When I make changes, I should be able to publish them in a controlled, automated fashion - and I have the [basic scaffolding in place for consumer contracts](https://github.com/brabster/pypi_vulnerabilities/tree/main/tests/contracts/docs) ready for if they're needed.
+Having put all this together in dbt, I can easily test, deploy and perform data quality tests for it all. I set up a [GitHub actions workflow](https://github.com/brabster/pypi_vulnerabilities/blob/a0d55e20b88ccde4036c6d053abbf0cdb86a6b41/.github/workflows/deploy.yml) to build and test all this stuff before publishing it to the publicly available dataset I've mentioned before. When I make changes, I should be able to publish them in a controlled, automated fashion - and I have the [basic scaffolding in place for consumer contracts](https://github.com/brabster/pypi_vulnerabilities/tree/main/tests/contracts/docs) ready for if they're needed.
 
 ## Analysis
 
-Well - after all that I haven't had much time to perform analysis yet. A headline number: 5.2% of the downloads on that snapshot day were known vulnerable to something - or **over 32 million downloads**.
+![Pie chart showing vulnerable downloads at 5.2% of total](./assets/overall_downloads.png)
 
-To be honest, my initial analysis pass left me with more questions than answers - and there was enough to talk about to get to this point.
+Well - after all that I haven't had much time to perform analysis yet. A headline number, based on the preparation above: **5.2%** - or **over 32 million** - of the downloads recorded on that snapshot day were known vulnerable to something. To be honest, my initial analysis pass left me with more questions than answers - and there was enough to talk about to get to this point.
 
 Expect a follow up with some actual analysis - here's a [link to a colab notebook](https://colab.research.google.com/drive/1StJYC8VgCImeUHksNQd0yEObrLwrFeJe?usp=sharing) I'm using. I'd love to hear any ideas or questions you have - or if you use this data to do something! I have social links in the post footer, or raise an issue on the repo.
 
