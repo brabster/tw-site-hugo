@@ -102,6 +102,6 @@ Well - after all that I haven't had much time to perform analysis yet. A headlin
 
 To be honest, my initial analysis pass left me with more questions than answers - and there was enough to talk about to get to this point.
 
-Expect a follow up with some actual analysis. I'd love to hear any ideas or questions you have - or if you use this data to do something! I have social links in the post footer, or raise an issue on the repo.
+Expect a follow up with some actual analysis - here's a [link to a colab notebook](https://colab.research.google.com/drive/1StJYC8VgCImeUHksNQd0yEObrLwrFeJe?usp=sharing) I'm using. I'd love to hear any ideas or questions you have - or if you use this data to do something! I have social links in the post footer, or raise an issue on the repo.
 
 Until next time...
