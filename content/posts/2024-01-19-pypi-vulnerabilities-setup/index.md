@@ -1,7 +1,6 @@
 ---
 title: Investigating Vulnerable Python Packages
 date: 2024-01-19
-draft: true
 category: Security
 tags:
  - python
