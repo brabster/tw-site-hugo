@@ -1,5 +1,5 @@
 ---
-title: PyPI Download History
+title: Safety First
 date: 2024-02-06
 category: Analytics
 tags:
@@ -10,9 +10,7 @@ tags:
 
 ---
 
-Following [initial exploration and setup](../2024-01-19-pypi-vulnerabilities-setup/index.md), I wanted to pull in more history from my safety and pypi sources to get a better idea of what might be happening. I also wanted to keep the data up to date automatically.
-
-I'll cover the challenges in setting up those feeds and how the numbers in the last post turned out to be wrong. Over a couple of posts. First up - Safety DB vulnerability history!
+Following [initial exploration and setup](../2024-01-19-pypi-vulnerabilities-setup/index.md), I wanted to pull in more history from my safety and pypi sources to get a better idea of what might be happening. First up - a view of the Safety vulnerability database over time, explaining the challenges and decisions I made.
 
 Thanks to [Equal Experts](https://equalexperts.com) for supporting this content.
 
@@ -22,9 +20,9 @@ Thanks to [Equal Experts](https://equalexperts.com) for supporting this content.
 
 ## In the Last Thrilling Episode...
 
-I had extracted download data from the open PyPI dataset for the arbitrary recent-ish date 2023-11-05, noting the large volumes and high costs involved in processing the source dataset. I extracted a single SafetyDB snapshot from the month before the download data, built some functions to match semver constraints and created some views and tables to pull out more usable views of the data and some summary statistics. I used that data to produce an overall proportion of known-vulnerable downloads that day of 5.2% or around 32m downloads.
+I extracted a single SafetyDB snapshot from the month before the download data, built some functions to match semver constraints and created some views and tables to pull out more usable views of the data and some summary statistics. I used that data to produce an overall proportion of known-vulnerable downloads that day of 5.2% or around 32m downloads.
 
-That number was **wrong**. The first part of why starts now.
+It turns out that number was **wrong** - it'll take a couple of posts to get to that though.
 
 ## Obtaining Safety History
 
@@ -47,13 +45,15 @@ Given that the commit history is immutable, this approach avoids unnecessary tim
 |-|
 |![Backfilling Safety DB history](./assets/safety_init_load.png)|
 
+Note to self - I really need to sort a better solution for rich captioned figures! Anyway...
+
 |[First build on Feb 2nd](https://github.com/brabster/pypi_vulnerabilities/actions/runs/7716571519/job/21033677275) loads February's commit|
 |-|
 |![First build on Feb 2nd loads February's commit](./assets/safety_next_load.png)|
 
 ## Taking a Look
 
-The raw table isn't that useful, as it's organised as a list of vulnerabilities per packge. I've laid a view over it to expand that into a row-per-vulnerability, which is much more useful. Example:
+The raw table isn't that useful, as it's organised as a list of vulnerabilities per package. I've laid a view over it to expand that into a row-per-vulnerability, which is much more useful. Example:
 
 ```sql
 SELECT
@@ -77,25 +77,25 @@ LIMIT 10
 |requests|2023-11-01|[<=2.19.1]|CVE-2018-18074|27|2023-12-01|
 |requests|2023-10-01|[<2.3.0]|CVE-2014-1830|26|2023-11-01|
 
-We can see that `CVE-2015-2296` has been known about for a while, with 26 previous commits as of November 2023 (27 in December). `CVE-2023-32681` is much newer, and `PVE-2023-99936` has no previous commit. That will turn out to be important for those pesky numbers...
+We can see that `CVE-2015-2296` has been known about for a while, with 26 previous commits as of October 2023 (27 in November). `CVE-2023-32681` is much newer, and `PVE-2023-99936` has no previous commit - so it first appeared in the November 2023 update. The `until_date` column is computed over the sequence of commits using a [window (aka analytic) function](https://cloud.google.com/bigquery/docs/reference/standard-sql/window-function-calls), and it means we will easily be able to join each download with this vulnerability data based on the date of the download.
 
 ## Why Not External Tables?
 
-I did consider dropping the JSON files into Cloud Storage and laying an external table over them, which would have allowed me to do more within DBT.
-
-I would still have needed to do something custom to interact with GitHub, and I would have still needed to figure out which commits I'd already seen and filter them out. It didn't seem worth introducing DBT-plus-a-package to the process I already had working so I left it be.
+I did consider dropping the JSON files into Cloud Storage and laying an external table over them, which would have allowed me to do more within DBT. I would still have needed to do something custom to interact with GitHub, and I would have still needed to figure out which commits I'd already seen and filter them out. It didn't seem worth introducing DBT-plus-a-package to the process I already had working so I left it be.
 
 ## Gotcha - BigQuery Sandbox Partition Expiration
 
 After looking at options to merge a commit safely and efficiently into the target table, I settled on [partitioning the target table by date](https://github.com/brabster/pypi_vulnerabilities/blob/64812282d8c94d32a769723fdb99da3b2a97d861/etl/safety_db/bigquery.py#L3) and [overwriting the partition with WRITE_TRUNCATE](https://github.com/brabster/pypi_vulnerabilities/blob/64812282d8c94d32a769723fdb99da3b2a97d861/etl/safety_db/bigquery.py#L45) when I upload a given commit. Even if I do end up re-running any upload, I won't end up with duplicates to worry about.
 
-That approach works just great - except when you're running in the BigQuery sandbox and partition expiration is automatically set to 60 days - that's 60 days from the partition timestamp, not the wall clock time when you write the data. Confused me for a while - I was sure what I was doing should work but somehow I only seemed to get the last couple of partitions showing up!
+That approach works fine - except when you're running in the BigQuery sandbox and partition expiration is automatically set to 60 days - that's 60 days from the partition timestamp, not the wall clock time when you write the data. Confused me for a while - I was sure what I was doing should work but somehow I only seemed to get the last couple of partitions showing up!
 
 ## Cutting my Losses with the Sandbox
 
-At this point, knowing I was about to tackle the multi-Terabyte PyPI downloads dataset I decided to cut my losses and move to a billed account. To avoid a hard break, I left the original work in account `pypi-vulnerabilities` but relocated new work to `pypi-vulns`, which runs in my Tempered Works-attributed account, with billing set up.
+At this point, knowing I was about to tackle the multi-terabyte PyPI downloads dataset I decided to cut my losses and move to a billed account. To avoid breaking changes, I left the original work in account `pypi-vulnerabilities` but relocated new work to `pypi-vulns` (as you can see from the example query above), which runs in my Tempered Works-attributed account, with billing set up.
 
-The BigQuery sandbox is an awesome capability, but it's time to get serious and pay actual money.
+This new dataset is still publicly available as dataset `pypi-vulns.published_us` - I will deprecate the old one and remove it at some point in the future.
+
+The BigQuery sandbox is an awesome capability for that initial exploration of the data and options. Limitations like the mandatory partition expiry would force me to do weird things to work around them, though. Moving to a billed account means I can keep things intuitive and - well - I expect it'll take a cash injection to process the download data.
 
 ## Next Time
 
