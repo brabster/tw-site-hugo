@@ -97,6 +97,15 @@ This new dataset is still publicly available as dataset `pypi-vulns.published_us
 
 The BigQuery sandbox is an awesome capability for that initial exploration of the data and options. Limitations like the mandatory partition expiry would force me to do weird things to work around them, though. Moving to a billed account means I can keep things intuitive and - well - I expect it'll take a cash injection to process the download data.
 
+## Keeping up to Date
+
+Having sorted an idempotent upload of the latest Safety DB, it's just a case of adding a scheduled workflow to my GitHub actions build.
+That just goes into source control for the workflow as a trigger (c'mon GitLab, it should be THIS EASY).
+
+![Cron schedule in the GitHub actions workflow](./assets/gh_cron.png)
+
+I run the whole workflow every day at 4am for now, so it'll redeploy the models, including recomputing any materialisations and run my test suite to pick up any data quality issues in new data.
+
 ## Next Time
 
 How I dealt with that large PyPI dataset history without bankrupting myself.
