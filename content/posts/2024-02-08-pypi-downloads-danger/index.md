@@ -1,12 +1,14 @@
 ---
 title: $1,370 Gone in Sixty Seconds
-date: 2024-02-09
+date: 2024-02-08
 category: Analytics
 tags:
  - python
  - vulnerabilities
  - security
  - dbt
+ - bigquery
+ - finops
 
 ---
 

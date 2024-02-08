@@ -7,6 +7,7 @@ tags:
  - vulnerabilities
  - security
  - dbt
+ - bigquery
 
 ---
 
