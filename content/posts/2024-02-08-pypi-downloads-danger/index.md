@@ -40,8 +40,8 @@ The table is set up to require a constraint in the where clause against the day-
 
 I think it's worth taking a moment to reflect on how how easy it is to spend money without realising here. Once I have a query in that window with any condition against the `timestamp`, column I can hit run (or crtl-return) to run it. Examples:
 
-- I could mistype a date, so that instead of "greater than yesterday" billing around a dollar, I have "greater than yesterday's date last year". Boom - **$500** on the bill.
-- Not realising why the condition on timestamp is required, I use something like "IS NOT NULL". Boom, **$1,370** on the bill - a pricey over $100 per character.
+- I could mistype a date, so that instead of "greater than yesterday" billing around a dollar, I have "greater than yesterday's date last year". Boom - **$500** on the bill for a 1-character typo.
+- Not realising why the condition on timestamp is required, I use something like "IS NOT NULL". Boom, **$1,370** on the bill - a pricey $100+ per character.
 - I use a date constraint that isn't constant, for example the max date from another table. This one is really insidious because it looks like you have a constraint set, BigQuery will not prune partitions and will scan the whole table anyway! Boom, **$1,370** on the bill.
 
 There are several ways you can mess up partition pruning, described here in [best practises](https://cloud.google.com/bigquery/docs/querying-partitioned-tables#best_practices_for_partition_pruning). Although there is a `max_bytes_billed` option you can set when you run queries programmatically, there is no way I can see of setting that in the UI. The "query settings" UI contains a whole bunch of weird and wonderful options, but doesn't offer a "don't bankrupt me without asking first" setting.
@@ -179,7 +179,7 @@ I'm going to be making efforts to do as much of my BigQuery work as possible in 
 
 This is running a bit long now, but I'll quickly show why the new view is so much safer and more efficient, at least for the kind of analysis I want to do.
 The new table gives me download counts by day, package, version and installer.
-It currently contains 451 billion rows and weighs in at 21.45GB. The maximum scan cost you can incur against this table is 10p, and you can doo 100 queries within the monthly free tier.
+It currently contains 451 billion rows and weighs in at 21.45GB. The maximum single query scan cost you can incur against this table is **10p**, and you can run around 100 queries over it within the monthly free tier.
 
-I could optimise further with daily partitions, but that's one for another day.
+Given that most of my queries are in specific date ranges, I could optimise further - but that's one for another day.
 
