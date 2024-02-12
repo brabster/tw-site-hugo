@@ -94,7 +94,7 @@ That approach works fine - except when you're running in the BigQuery sandbox an
 
 At this point, knowing I was about to tackle the multi-terabyte PyPI downloads dataset I decided to cut my losses and move to a billed account. To avoid breaking changes, I left the original work in account `pypi-vulnerabilities` but relocated new work to `pypi-vulns` (as you can see from the example query above), which runs in my Tempered Works-attributed account, with billing set up.
 
-This new dataset is still publicly available as dataset `pypi-vulns.published_us` - I will deprecate the old one and remove it at some point in the future.
+This new dataset is still publicly available as dataset [`pypi-vulns.published_us`](ttps://console.cloud.google.com/bigquery?p=pypi-vulns&d=published_us&page=dataset) - I will deprecate the old one and remove it at some point in the future.
 
 The BigQuery sandbox is an awesome capability for that initial exploration of the data and options. Limitations like the mandatory partition expiry would force me to do weird things to work around them, though. Moving to a billed account means I can keep things intuitive and - well - I expect it'll take a cash injection to process the download data.
 
