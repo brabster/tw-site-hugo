@@ -24,13 +24,13 @@ Thanks to [Equal Experts](https://equalexperts.com) for supporting this content.
 
 The raw data contains a row per download, which explains the volume. If there are a million downloads of `requests==1.0.0` on a given day, that's a million rows. The data is partitioned by day, so we can limit the scan to a specific date range if add a `WHERE` clause with a constant value. Let's take a look at what BigQuery estimates scan volume will be for a few example queries. "Worst Cost" in the table below multiplies the scanned bytes by $5/TB for a worst-case cost,
 
-|Comments|Query|Worst Cost|
+|Query|Worst Cost|
 |--------|-----|----------|
-|All columns, one day|![](./assets/query_raw_star_one_day.png)|$0.79|
-|Interesting columns, one day|![](./assets/query_raw_cols_one_day.png)|$0.08|
-|Interesting columns, one month|![](./assets/query_raw_cols_one_month.png)|$5.25|
-|Interesting columns, one year|![](./assets/query_raw_cols_one_year.png)|$51.95|
-|All columns, one year|![](./assets/query_raw_star_one_year.png)|$509.95|
+|{{< figure src="./assets/query_raw_star_one_day.png" caption="All columns, one day" >}}|$0.79|
+|{{< figure src="./assets/query_raw_cols_one_day.png" caption="Interesting columns, one day" >}}|$0.08|
+|{{< figure src="./assets/query_raw_cols_one_month.png" caption="Interesting columns, one month" >}}|$5.25|
+|{{< figure src="./assets/query_raw_cols_one_year.png" caption="Interesting columns, one year" >}}|$51.95|
+|{{< figure src="./assets/query_raw_star_one_year.png" caption="All columns, one year" >}}|$509.95|
 
 We can see the date partitioning working here - the fewer days we query, the less we scan, the less it costs. Columnar storage also makes a big difference - if we select a few columns, we also scan and pay less than querying them all.
 
@@ -159,7 +159,10 @@ GROUP BY
 
 Now I'm running an initial query to find the latest partition date in the target table, and then query and merge new rows starting from that date, which is a constant now in the merge query. Nice and clean - but not front-and-centre in the dbt docs nor built into dbt incremental models. Now, my [daily merges run over 20-25GB](https://github.com/brabster/pypi_vulnerabilities/actions/runs/7794554168/job/21256082949#step:8:117), not 3.4TB!
 
-![Build log showing 20GB merge](./assets/incr_model_after.png)
+
+{{< figure
+  src="./assets/incr_model_after.png"
+  caption="Build log showing 20GB merge" >}}
 
 ## Materialized Views
 

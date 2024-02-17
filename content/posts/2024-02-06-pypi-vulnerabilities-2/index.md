@@ -42,15 +42,12 @@ I don't know of any way to interact with GitHub in this way without scripting it
 
 Given that the commit history is immutable, this approach avoids unnecessary time spent downloading and uploading data that we already have.
 
-|Backfilling Safety DB history in [the first build](https://github.com/brabster/pypi_vulnerabilities/actions/runs/7716571519/job/21033677275)|
-|-|
-|![Backfilling Safety DB history](./assets/safety_init_load.png)|
+### Backfilling Safety DB history in [the first build](https://github.com/brabster/pypi_vulnerabilities/actions/runs/7716571519/job/21033677275)
 
-Note to self - I really need to sort a better solution for rich captioned figures! Anyway...
+{{< figure src="./assets/safety_init_load.png" caption="Backfilling Safety DB history" >}}
 
-|[First build on Feb 2nd](https://github.com/brabster/pypi_vulnerabilities/actions/runs/7716571519/job/21033677275) loads February's commit|
-|-|
-|![First build on Feb 2nd loads February's commit](./assets/safety_next_load.png)|
+### [First build on Feb 2nd](https://github.com/brabster/pypi_vulnerabilities/actions/runs/7716571519/job/21033677275) loads February's commit
+{{< figure src="./assets/safety_next_load.png" caption="First build on Feb 2nd loads February's commit" >}}
 
 ## Taking a Look
 
@@ -103,7 +100,9 @@ The BigQuery sandbox is an awesome capability for that initial exploration of th
 Having sorted an idempotent upload of the latest Safety DB, it's just a case of adding a scheduled workflow to my GitHub actions build.
 That just goes into source control for the workflow as a trigger (c'mon GitLab, it should be THIS EASY).
 
-![Cron schedule in the GitHub actions workflow](./assets/gh_cron.png)
+{{< figure
+  src="./assets/gh_cron.png"
+  caption="Cron schedule in the GitHub actions workflow" >}}
 
 I run the whole workflow every day at 4am for now, so it'll redeploy the models, including recomputing any materialisations and run my test suite to pick up any data quality issues in new data.
 
