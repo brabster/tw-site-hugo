@@ -23,9 +23,16 @@ The Python Packaging Authority publishes package download data to BigQuery ([PyP
 
 There are three tables in the dataset, one of which represents actual package downloads, `bigquery-public-data.pypi.file_downloads`. The Python Packaging User Guide produces some useful documentation about this table [here](https://packaging.python.org/en/latest/guides/analyzing-pypi-package-downloads/). Let's take a look at what we're dealing with.
 
-|Schema|Details|
-|------|-------|
-|![file_downloads table schema, showing over 20 columns](./assets/pypi_table_schema.png)|![Table details, showing the size in bytes and rows](./assets/pypi_table_details.png)|
+
+{{< columns >}}
+{{< figure
+  src="./assets/pypi_table_schema.png"
+  caption="file_downloads table schema, showing over 20 columns" >}}
+{{< column >}}
+{{< figure
+  src="./assets/pypi_table_details.png"
+  caption="Table details, showing the size in bytes and rows" >}}
+{{< endcolumns >}}
 
 So this table has a complex schema, and is huge - **760 billion rows** and **3.15TB of physical bytes**.
 Each download of a package from anywhere in the world is recorded as a row, so there's a lot of data here (not enough, but we'll get to that later).
@@ -73,7 +80,10 @@ Now I need to glue the download data and the vulnerability data together. I want
 
 I couldn't find any functions I could call from BigQuery to process semver constraints. Semver isn't straightforward to process, but I worked from the [spec](https://semver.org/) as best I could. It took me a couple of days and 14 functions to solve the problem in pure SQL with enough test coverage to give me any confidence in correctness.
 
-![](./assets/semver_udfs.png)
+
+{{< figure
+  src="./assets/semver_udfs.png"
+  caption="UDfs involved in the semver matching calculation" >}}
 
 You'll find the [functions and documentation](hthttps://github.com/brabster/pypi_vulnerabilities/blob/a0d55e20b88ccde4036c6d053abbf0cdb86a6b41/macros/ensure_udfs.sql) with [tests](https://github.com/brabster/pypi_vulnerabilities/tree/a0d55e20b88ccde4036c6d053abbf0cdb86a6b41/tests) in the repo - if you want to use them can call them directly in BigQuery from dataset `pypi-vulnerabilities.pypi_vulnerabilities_us` as per the following example.
 
@@ -95,8 +105,9 @@ SELECT
 FROM examples
 ```
 
-![Example resolts of previous query](./assets/semver_example.png)
-
+{{< figure
+  src="./assets/semver_example.png"
+  caption="Example resolts of previous query" >}}
 
 I materialize this model as it takes a few seconds to process semver constraint matching over millions of rows and I'm really impatient (and I worry about burning rainforests for the sake of a tiny bit of work!)
 
@@ -126,7 +137,9 @@ Having put all this together in dbt, I can easily test, deploy and perform data 
 
 ## Analysis
 
-![Pie chart showing vulnerable downloads at 5.2% of total](./assets/overall_downloads.png)
+{{< figure
+  src="./assets/overall_downloads.png"
+  caption="Pie chart showing vulnerable downloads at 5.2% of total" >}}
 
 Well - after all that I haven't had much time to perform analysis yet. A headline number, based on the preparation above: **5.2%** - or **over 32 million** - of the downloads recorded on that snapshot day were known vulnerable to something. To be honest, my initial analysis pass left me with more questions than answers - and there was enough to talk about to get to this point. For example - how well does this data reflect the package versions and vulnerabilities out there installed on computers? What package management activity is not recorded here thanks to caching?
 
