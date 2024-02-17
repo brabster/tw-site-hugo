@@ -22,7 +22,7 @@ I can't share the actual artefacts that we were working with, so I'll use a publ
 
 {{< figure src="./example_tableau_viz.png"
  alt="Example Tableau dashboard screenshot. Several different types of visualisation are visible, illustrating some of the complexity that dashboards contain."
- caption="[Example Tableau dashboard screenshot. Several different types of visualisation are visible, illustrating some of the complexity that dashboards contain. I think I can use this for commercial purposes with appropriate credit!]" >}}
+ caption="Example Tableau dashboard screenshot. Several different types of visualisation are visible, illustrating some of the complexity that dashboards contain. I think I can use this for commercial purposes with appropriate credit!" >}}
 
 We'll assert that the data behind this dashboard is produced by one or more SQL queries. There are a number of ways these visualisations could be "broken" by the source data changing after the dashboard was built.
 
@@ -40,7 +40,7 @@ Dashboards may not have capabilities to proactively monitor and report these kin
 
 {{< figure src="./example_tableau_error.png"
  alt="Example Tableau error message, preventing use of the dashboard."
- caption="[Example Tableau error message, preventing use of the dashboard.]" >}}
+ caption="Example Tableau error message, preventing use of the dashboard." >}}
 
 We can use a contract to express the needs that this dashboard has of the data. I created a single generic schema test, using the database's information schema, and avoiding use of dbt's refs, to test most of these expectations. I deferred testing access expectations as it seemed relatively unlikely to occur and it was not clear how best to test it.
 
