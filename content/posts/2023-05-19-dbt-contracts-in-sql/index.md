@@ -29,8 +29,8 @@ The same approach works with the same benefits for a SQL-based digital product i
 I'll show you what I mean with [dbt-labs' Jaffle Shop demo project](https://github.com/dbt-labs/jaffle_shop) as our producer, and we are the product team looking after it. In the lineage graph below, we can see some raw relations[^nomenclature] feeding some staging relations to produce a `customers` and an `orders` relation.
 
 {{< figure
-  src="Lineage graph for the demo Jaffle Shop project with a line indicaing which relations are private and which are consumer-facing"
-  caption="Screenshot of the max bytes billed setting in BigQuery UI" >}}
+  src="Jaffle_shop_graph.png"
+  caption="Lineage graph for the demo Jaffle Shop project with a line indicaing which relations are private and which are consumer-facing" >}}
 
 The right-most relations, `customers` and `orders`, are our customer-facing interface. The "upstream" relations are implementation details and hidden from consumers, ideally by permissions. Besides potentially protecting more sensitive data, this hiding of implementation detail from consumers is important for stable contracts. Without it, we lack the flexibility to adapt to change whilst holding the contract stable.
 
