@@ -180,7 +180,7 @@ That's it. Grab some config, build a single SQL statement, run it and you're goo
 
 The criticism I can maybe see coming is that the other materializations are interchangeable, but you can't swap a UDF for a view. I wouldn't be too concerned by that. Each existing materialization has its own config settings that don't work with the others, so they're not exactly drop-in replacements. I also can't really see a scenario where someone would attempt to alter the materialization from, say, a view to a UDF and expect something sensible to happen, other than an error which they would get with this approach.
 
-Perhaps I'm weird but like I said earlier, I think of dbt as being like Terraform for my data warehouse rather than a weird data thing. With that in mind, "materialization" as a more general concept that covers making types of database concept material than just relations seems quite reasonable to me - particularly if helps folks out.
+Perhaps I'm weird but like I said earlier, I think of dbt as being like Terraform for my data warehouse rather than a weird data thing. With that in mind, "materialization" as a more general concept that covers making types of database concept material **other** than just relations seems quite reasonable and powerful to me - particularly if it helps folks out.
 
  `¯\_(ツ)_/¯`
 
