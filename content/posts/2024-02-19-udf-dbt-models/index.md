@@ -140,13 +140,57 @@ Do dbt docs include my UDFs?
 Do UDFs deploy concurrently with the rest of the graph?
 : Yes, plenty of evidence for that provided already.
 
+## How It Works
+
+dbt supports custom materializations - there's a [walkthrough](https://docs.getdbt.com/guides/create-new-materializations?step=1) of how to do it. It provides a way of hooking into the dbt model-and-config mechanism. `view`, `table` and `incremental` are the core materialized implementations and they combine SQL with some configuration. SQL-based UDFs work easily with this model - they are just SQL and config.
+
+I moved the implementation of the custom materialization into its own repository, to prove that it worked as a git-sourced package and to have a clean standalone implementation to demo. The materialization template is [dbt_materialized_udf/macros/materializations/udf.sql](https://github.com/brabster/dbt_materialized_udf/blob/f54b2266abeaf788cf7a350f0f0678020d9dedbf/macros/materializations/udf.sql). This is the cleanest, simplest thing that works for me and I haven't invested in any test coverage or such like at this point.
+
+Right now, it looks like this:
+
+```jinja
+{% materialization udf, adapter="bigquery" %}
+{%- set target = adapter.quote(this.database ~ '.' ~ this.schema ~ '.' ~ this.identifier) -%}
+
+{%- set parameter_list=config.get('parameter_list') -%}
+{%- set ret=config.get('returns') -%}
+{%- set description=config.get('description') -%}
+
+{%- set create_sql -%}
+CREATE OR REPLACE FUNCTION {{ target }}({{ parameter_list }})
+RETURNS {{ ret }}
+OPTIONS (
+  description='{{ description }}'
+)
+AS (
+  {{ sql }}
+);
+{%- endset -%}
+
+{% call statement('main') -%}
+  {{ create_sql }}
+{%- endcall %}
+
+{{ return({'relations': []}) }}
+
+{% endmaterialization %}
+```
+
+That's it. Grab some config, build a single SQL statement, run it and you're good. Because UDFs are stateless, the deployment part is really easy - `CREATE OR REPLACE` all the way. Don't need to worrry about `DROP` as dbt doesn't tidy up things that you move or remove anyway. I'll cover my solution for that in a future post, but it's independent of UDF materializations.
+
+The criticism I can maybe see coming is that the other materializations are interchangeable, but you can't swap a UDF for a view. I wouldn't be too concerned by that. Each existing materialization has its own config settings that don't work with the others, so they're not exactly drop-in replacements. I also can't really see a scenario where someone would attempt to alter the materialization from, say, a view to a UDF and expect something sensible to happen, other than an error which they would get with this approach.
+
+Perhaps I'm weird but like I said earlier, I think of dbt as being like Terraform for my data warehouse rather than a weird data thing. With that in mind, "materialization" as a more general concept that covers making types of database concept material than just relations seems quite reasonable to me - particularly if helps folks out.
+
+ `¯\_(ツ)_/¯`
+
 ## What's Next
 
 UDF nirvana in dbt, obviously.
 
 You can see an example of the changes I made to update the `pypi-vulnerabilities` project to use this new way of doing UDFs [in this PR](https://github.com/brabster/pypi_vulnerabilities/pull/10/files). This approach is currently used in my "production" deployment and I've had no issues with it.
 
-I've split out my experimental and BigQuery-specific materialization into a separate repo [here](https://github.com/brabster/dbt_materialized_udf), so you can have a play with it without having to copy-and-paste. Be aware that right now, I have labelled it experimental and, whilst I'm happy to look at issues and PRs, I provide no warranty or expectation of support - your use of this repo directly in real applications is at your own risk.
+I've split out my experimental and BigQuery-specific materialization into a separate repo [here](https://github.com/brabster/dbt_materialized_udf), so you can have a play with it without having to copy-and-paste. Be aware that right now, I have labelled it experimental and, whilst I'm happy to look at issues and PRs, I provide no warranty or expectation of support - your use of this repo directly in real applications is at your own risk. I've shared this solution on the dbt slack and in a couple of (closed stale, so I missed them until I went looking knowing what I was looking for!) issue threads. If anything useful comes out of that, I'll update here.
 
 I did try the same custom materialization trick with schemas/datasets, and it didn't go so well. I'll try and put a writeup together about that soon.
 
