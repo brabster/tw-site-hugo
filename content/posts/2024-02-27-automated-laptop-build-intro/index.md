@@ -34,7 +34,9 @@ What thoughts and feelings do those scenarios trigger for you? Somewhere on this
 
 `abject terror <--------> no problem`
 
-![Baby crying gif](./assets/crying.gif)
+{{< figure
+  src="./assets/crying.gif"
+  caption="baby crying, credit https://giphy.com/gifs/lwYxf0qKEjnoI" >}}
 
 I'd guess most of us are somewhere in the middle.
 
@@ -47,13 +49,15 @@ From my own experience and occasional conversations with peers over the last few
 - You've maybe got a cloud backup but are unsure what that covers (and if you think you've been compromised, could your backup include something that lets the naughty folks back in?)
 - You can't remember what you had installed, how you installed it, how you customised it... strap in for a few days of "argh, where's (insert application here)"
 
-![One does not simply reinstall from scratch meme](./assets/one-does-not-simply.jpg)
+{{< figure
+  src="./assets/one-does-not-simply.jpg"
+  caption="One does not simply reinstall from scratch meme, credit https://imgflip.com/memegenerator/One-Does-Not-Simply" >}}
 
 That's where I was a few years ago.
 
 ## What I Wanted
 
-In a nutshell - I want to get back to a clean, up-to-date state, with a new hard drive encryption key, and where I know exactly what is installed and where it came from.
+In a nutshell - I want to get back to a clean, up-to-date state, with a new hard drive encryption key, where I know exactly what is installed and where it came from.
 
 ### Clean Installs
 
