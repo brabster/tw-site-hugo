@@ -53,7 +53,7 @@ That's where I was a few years ago.
 
 ## What I Wanted
 
-In a nutshell - I want to get back to a clean state where I know exactly what is installed and where it came from.
+In a nutshell - I want to get back to a clean, up-to-date state, with a new hard drive encryption key, and where I know exactly what is installed and where it came from.
 
 ### Clean Installs
 
