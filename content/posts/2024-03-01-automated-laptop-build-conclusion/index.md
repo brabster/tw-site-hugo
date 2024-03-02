@@ -40,7 +40,7 @@ Time for a change, and Ubuntu seemed to fit the bill. A couple of years later an
 
 > Your Ubuntu software is secure from the moment you install it, and will remain so as Canonical ensures security updates are always available on Ubuntu first.
 
-Why [Xfce](https://www.xfce.org/) instead of the default Ubuntu desktop? Probably, if I'm honest because I'm old and stuck in my ways. I expect a desktop that is laid out and behaves like a more modern version of Windows 95, and Xrce gives me that. [It's an official Ubuntu Flavour](https://wiki.ubuntu.com/UbuntuFlavors), so I have no security concerns.
+Why [Xfce](https://www.xfce.org/) instead of the default Ubuntu desktop? Probably, if I'm honest because I'm old and stuck in my ways. I expect a desktop that is laid out and behaves like a more modern version of Windows 95, and Xfce gives me that. [It's an official Ubuntu Flavour](https://wiki.ubuntu.com/UbuntuFlavors), so I have no security concerns.
 
 ## Why Not [Qubes](https://www.qubes-os.org/)?
 
@@ -63,7 +63,7 @@ Anyway, I ended up with [Ansible](https://www.ansible.com/). It won out for a fe
 - agentless - it's just a program I run, does what it does, and shuts down. Nice and simple
 - has a set of idioms and a programming model I can use instead of making up my own
 - declarative and YAML - I'm used to working this way and it simplifies the programming model
-- has lots of built-in capabilities for managing blocks of lines in files, installing packages, etc
+- has lots of built-in capabilities for stuff I need to do, like  managing blocks of lines in files, installing packages, etc
 - has a way of describing a dependency between two things, to make sure they happen in the right order
 - available as a standard Ubuntu main package, so covered by Ubuntu security updates
 - ~~the Ansible Galaxy sharing hub~~
@@ -80,13 +80,13 @@ GitHub Actions were a game-changer. You don't have access to the VM the action i
 - doesn't depend on a desktop environment, i.e. Xubuntu config
 - everything that doesn't need containers itself, i.e. docker-rootless
 
-My [test_install](https://github.com/brabster/xubuntu-workstation/actions/workflows/test_install.yml) workflow sets a parameter to skip things that don't work in a container, and everything else is exercised in a matrix of the last LTS and latest release. I have that running weekly on a schedule for early warning emails in case something breaks. Not had anything break on one of those scheduled runs yet. In the unlikely event that I get to the April '24 Xubuntu release before the weekly job has kicked the tyres for me, I can just mash a button to find out if it's looking good in around 5 minutes, completely unattended.
+My [test_install](https://github.com/brabster/xubuntu-workstation/actions/workflows/test_install.yml) workflow sets a parameter to skip things that don't work in a container, and everything else is exercised in a matrix of the last LTS and latest release. I have that running weekly on a schedule for early warning emails in case something breaks. Not had anything break on one of those scheduled runs yet. In the unlikely event that I get to the April '24 Xubuntu release before the weekly job has kicked the tyres for me, I can just mash a button to find out if it's looking good in around 5 minutes, completely unattended - and before I spend time prepping USB sticks and reinstalling real hardware.
 
-I don't have much in the way of actual "tests" in there. I tend to operate an "add-as-needed" approach (sorry, test-first aficionados everywhere) and so far I've not had anything break that didn't break the install itself. I would like to add more security-related tests in there but unless there's a straightforward way to check that things like Chrome's DNSOverHTTP setting are working correctly I'm a bit limited in my options. I'll give that some more thought in this release cycle but even with little security test coverage I'm confident that I'm still in a far, far better place than if I set my machines up using only the intellect and attention of the idiot sitting in front of the keyboard!
+I don't have much in the way of actual "tests" in there. I tend to operate an "add-as-needed" approach (sorry, test-first aficionados everywhere) and so far I've not had anything break that didn't break the install itself. I would like to add more security-related tests in there but unless there's a straightforward way to check that things like Chrome's DNSOverHTTP setting are working correctly I'm a bit limited in my options. I'll give that some more thought in this release cycle but even with little security test coverage I'm confident that I'm still in a far, far better place than if I set my machines up relying on only the momentary intellect and attention of the idiot sitting in front of the keyboard!
 
 ## Cyber Essentials
 
-[Equal Experts](https://equalexperts.com) has various certifications to maintain and one of the things I needed to participate in was a Cyber Essentials audit. I was keen to get involved and make sure my security posture was robust enough to pass. I was surprised to get an audit point about having `sudo` enabled. I've solved that problem and passed the audit. This post is already too long (seems to happen a lot, sorry!) so I'll defer a more detailed exposition for a later post. ["How" is in the repo](https://github.com/brabster/xubuntu-workstation/blob/main/roles/sudo/tasks/main.yml), for the impatient.
+[Equal Experts](https://equalexperts.com) has various certifications to maintain and one of the things I needed to participate in over the last couple of years were Cyber Essentials audits. I was keen to get involved and make sure my security posture was robust enough to pass. I was surprised to get an audit point about having `sudo` enabled. I've solved that problem and passed the audit. This post is already too long (seems to happen a lot, sorry!) so I'll defer a more detailed exposition for a later post. ["How" is in the repo](https://github.com/brabster/xubuntu-workstation/blob/main/roles/sudo/tasks/main.yml), for the impatient.
 
 
 
