@@ -52,6 +52,10 @@ First up - I wanted complete segregation between my stuff and clients (and betwe
 
 The other, less important, problem was hardware. I typically run 16GB of RAM in a workstation and have no issues. Qubes is memory-hungry with the multi-VM overhead. I suspect Qubes is solving a slightly different problem than the kind of client partitioning I wanted. So... Xubuntu it is, and I have no regrets so far.
 
+## Why Not Automate the OS Installation?
+
+I looked into automating the actual OS installation back on Fedora. It involved providing an "answers file" to drive the installer, but required some infrastructure to provide that file as part of the installation. It seemed like a lot of effort for little benefit given how short and simple that part of the process takes - so I dropped it and it's completely failed to annoy me enough to make me look at it since.
+
 ## Why [Ansible](https://www.ansible.com/)?
 
 {{< figure src="./assets/ansible.png" caption="Ansible logo" >}}
