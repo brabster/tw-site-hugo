@@ -5,6 +5,7 @@ title: Tempered Works Ltd.
 pygmentsCodeFences: true
 pygmentsUseClasses: true
 #enableGitInfo: true
+enableEmoji: true
 
 
 params:
