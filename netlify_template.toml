@@ -15,4 +15,4 @@ publish = "public"
 command = "hugo"
 
 [context.deploy-preview]
-  HUGO_BASE_URL = "$DEPLOY_PRIME_URL"
+  HUGO_BASEURL = "$DEPLOY_PRIME_URL"
