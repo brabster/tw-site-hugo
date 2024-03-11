@@ -14,5 +14,5 @@
 publish = "public"
 command = "hugo"
 
-[context.deploy-preview]
+[context.deploy-preview.environment]
   HUGO_BASEURL = "$DEPLOY_PRIME_URL"
