@@ -10,6 +10,8 @@ HUGO_VERSION=$(${CMD} | sed 's/[v-]/~/g' | cut -d"~" -f2)
 echo "Writing latest hugo version ${HUGO_VERSION} to netlify config"
 sed "s/%HUGO_VERSION%/${HUGO_VERSION}/" < netlify_template.toml > netlify.toml
 
+git submodule update --init --recursive
+
 ${HUGO_RUN} gen chromastyles --style=native > static/css/syntax.css
 
 ${HUGO_RUN} server -D
